@@ -6,8 +6,8 @@ using UnityEngine;
 public enum InteractableState
 {
     Idle,
-    Grabbed,
-    Interacted,
+    Grabbed, // Chosen Option Grabbed
+    Interacted, // Clicked
     DisplayingInfo,
 
 }
@@ -17,6 +17,9 @@ public class Interactable : MonoBehaviour
     #region SerializeFields
     [SerializeField]
     private InteractableState currentState = InteractableState.Idle;
+
+    [SerializeField]
+    private Animator animator;
     #endregion
 
     #region Properties
@@ -46,17 +49,21 @@ public class Interactable : MonoBehaviour
 
     private void CheckState()
     {
-        Debug.Log("We Getting There");
         switch (currentState)
         {
+            case InteractableState.Interacted:
+                animator.Play("ObjectOptions");
+                break;
             case InteractableState.Grabbed:
-                Debug.Log($"State changed to {currentState}");
+                animator.Play("Empty");
                 GrabbedState();
                 break;
 
             default:
                 break;
         }
+
+        Debug.Log($"State changed to {currentState}");
     }
 
 

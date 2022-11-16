@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InteractController : MonoBehaviour
 {
+    public static UnityEvent<Interactable> OnInteractableFound = new UnityEvent<Interactable>();
+
+    private Interactable currentInteractable;
+
+
     int count = 0;
     private void Update()
     {
@@ -16,10 +22,13 @@ public class InteractController : MonoBehaviour
                 Debug.DrawLine(ray.origin, hit.point, Color.green);
                 if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable interactable))
                 {
-                    Debug.DrawLine(ray.origin, hit.point, Color.blue);
-                    Debug.Log(interactable.CurrentState);
-                    interactable.ChangeCurrentState(InteractableState.Grabbed);
-                    Debug.Log($"Hitting target with script {count++}");
+                    currentInteractable = interactable;
+                    OnInteractableFound.Invoke(currentInteractable);
+
+                    currentInteractable.ChangeCurrentState(InteractableState.Interacted);
+
+
+
                 }
 
             }
