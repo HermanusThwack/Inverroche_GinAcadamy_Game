@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DragHandler : MonoBehaviour
 {
-
+    private Interactable potentialInteractable;
     private Coroutine _draggingCoroutine;
 
     private void Update()

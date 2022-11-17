@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum InteractableState
 {
@@ -13,13 +14,14 @@ public enum InteractableState
 }
 public class Interactable : MonoBehaviour
 {
+    #region UnityEvents
+    public static UnityEvent<bool> OnStateChangeDisplayUI = new UnityEvent<bool>(); // Display UI Or Do not Display UI;
 
+    #endregion
     #region SerializeFields
     [SerializeField]
     private InteractableState currentState = InteractableState.Idle;
 
-    [SerializeField]
-    private Animator animator;
     #endregion
 
     #region Properties
@@ -33,30 +35,35 @@ public class Interactable : MonoBehaviour
 
 
     /// <summary>
-    /// To change state in code.
+    /// new state change state in code. Show Hide -> show or hide ui
     /// </summary>
     /// <param name="newState"></param>
-    public void ChangeCurrentState(InteractableState newState)
+    public void ChangeCurrentState(InteractableState newState, bool showHide)
     {
         if (currentState != newState)
         {
             Debug.Log($"State changing to {newState}");
             currentState = newState;
-            CheckState();
+            CheckState(showHide);
         }
 
     }
 
-    private void CheckState()
+    private void CheckState(bool showHide)
     {
+        OnStateChangeDisplayUI.Invoke(showHide);
+        Debug.Log($"State Changing : Show or Hide UI {showHide}");
         switch (currentState)
         {
             case InteractableState.Interacted:
-                animator.Play("ObjectOptions");
+
                 break;
             case InteractableState.Grabbed:
-                animator.Play("Empty");
                 GrabbedState();
+                break;
+            case InteractableState.Idle:
+             
+                StopCoroutine(grabbedCoroutine);
                 break;
 
             default:
@@ -69,6 +76,8 @@ public class Interactable : MonoBehaviour
 
 
     #region Grabbing
+    /// TODO Tweek the position of grabbed object remember its default location as well!
+
     /// <summary>
     /// Initializer for the StartGrabbing Coroutine 
     /// </summary>

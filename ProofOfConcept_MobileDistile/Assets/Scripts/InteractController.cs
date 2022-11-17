@@ -7,10 +7,28 @@ public class InteractController : MonoBehaviour
 {
     public static UnityEvent<Interactable> OnInteractableFound = new UnityEvent<Interactable>();
 
-    private Interactable currentInteractable;
 
+    /// <summary>
+    /// THIS IS SO THAT MOBILE TOUCH INPUT CAN BE POTENTIALY USED!!!
+    /// ------------------------------------------------------------
+    /// 
+    /// Potential interactable is for the raycast hitting anyInteractable - This will display the ui options: Grab and display info
+    /// when grab is selected the potential interactable will become the current interactable untill when its dropped then both currentgrabbedinteractable
+    /// and potential interactable becomes null.
+    /// </summary>
 
-    int count = 0;
+    private Interactable potentialInteractable, currentInteractable;
+
+    private void OnEnable()
+    {
+        InteractableStateHandler.OnCurrentInteractableUsed.AddListener(CurrentInteractableFound);
+    }
+
+    private void CurrentInteractableFound(Interactable _currentInteractable)
+    {
+        currentInteractable = _currentInteractable;
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -20,12 +38,14 @@ public class InteractController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 Debug.DrawLine(ray.origin, hit.point, Color.green);
-                if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable interactable))
+                if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable foundedInteractable))
                 {
-                    currentInteractable = interactable;
-                    OnInteractableFound.Invoke(currentInteractable);
+                    potentialInteractable = foundedInteractable;
+                    OnInteractableFound.Invoke(potentialInteractable); // ----> Interactable State handler <-----
+                    // Potential interactable found 
 
-                    currentInteractable.ChangeCurrentState(InteractableState.Interacted);
+                    if (currentInteractable != null) return; // Returns there is a intercatable dragged.
+                    potentialInteractable.ChangeCurrentState(InteractableState.Interacted ,true);
 
 
 
@@ -35,6 +55,19 @@ public class InteractController : MonoBehaviour
 
         }
 
-
+        /// Find a diffrent wat to release the object 
+        /// The idea is to place back in origanal location
+        /// Or in tea bag 
+        /// Or in distill
+        //else if (Input.GetMouseButtonUp(0))
+        //{
+        //    if (currentInteractable != null)
+        //    {
+        //        currentInteractable.ChangeCurrentState(InteractableState.Idle);
+        //    }
     }
+
+
+
+
 }
