@@ -22,10 +22,24 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private InteractableState currentState = InteractableState.Idle;
 
+    /// <summary>
+    /// Moving the object around the screen will move the Z axis || Depth closer towards either targetTransform or StartLocation.
+    /// </summary>
+    [SerializeField]
+    private Transform targetTransform, startLocation;
+
+
     #endregion
 
     #region Properties
     public InteractableState CurrentState { get => currentState; }
+
+    public Transform StartLocation { get => startLocation; }
+    
+    /// <summary>
+    /// For certain interactable target location might need to be able to change.
+    /// </summary>
+    public Transform TargetTransform { get => targetTransform; set => targetTransform = value; }
     #endregion
 
 
@@ -62,7 +76,7 @@ public class Interactable : MonoBehaviour
                 GrabbedState();
                 break;
             case InteractableState.Idle:
-             
+
                 StopCoroutine(grabbedCoroutine);
                 break;
 
@@ -105,6 +119,12 @@ public class Interactable : MonoBehaviour
 
 
     }
+
+    private void GetRelativeOffset(Transform _startPos ,Transform _targetPos)
+    {
+
+    }
+
 
     #endregion
 

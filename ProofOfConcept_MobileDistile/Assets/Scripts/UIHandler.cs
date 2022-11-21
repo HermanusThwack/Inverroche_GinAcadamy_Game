@@ -31,9 +31,9 @@ public class UIHandler : MonoBehaviour
 
 
     private void OnEnable()
-    { 
-        InteractController.OnInteractableFound.AddListener(MoveInteractableUI); 
-        Interactable.OnStateChangeDisplayUI.AddListener(HandleDisplayingUI); 
+    {
+        InteractController.OnInteractableFound.AddListener(MoveInteractableUI);
+        Interactable.OnStateChangeDisplayUI.AddListener(HandleDisplayingUI);
 
 
     }
@@ -57,6 +57,8 @@ public class UIHandler : MonoBehaviour
         //ToDo Maybe add pading to found interactable and adjust position based on that information || Depanding on how for its from the screen padding gets adjusted that way.
         if (selectedInteractable != foundInteractable)
         {
+
+
             // Do not excecute this code if the same interactable is selected
             LookAtCamera();
             HandleDisplayingUI(true);
@@ -85,18 +87,18 @@ public class UIHandler : MonoBehaviour
 
     IEnumerator ChangeUIAnimation(bool showHide)
     {
-        animator.Play("Empty");
+
+        animator.CrossFade("ChangeTransparency", 0f);
+        yield return new WaitForFixedUpdate();
         if (showHide)
         {
             yield return new WaitForSecondsRealtime(0.5f);
-
-            animator.Play("ObjectOptions");
-
+            animator.CrossFade("ObjectOptions", 0.1f);
         }
         else
         {
             yield return new WaitForEndOfFrame();
-            animator.Play("Empty");
+            animator.CrossFade("Empty", 0f);
         }
     }
     #endregion
