@@ -16,7 +16,7 @@ public class Interactable : MonoBehaviour
 {
     #region UnityEvents
     public static UnityEvent<bool> OnStateChangeDisplayUI = new UnityEvent<bool>(); // Display UI Or Do not Display UI;
-
+    public static UnityEvent<InteractableInformantion ,bool> OnDisplayUIPanel = new UnityEvent<InteractableInformantion ,bool>(); // Info ,bool => Big or Small Panel
     #endregion
     #region SerializeFields
     [SerializeField]
@@ -28,6 +28,11 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private Transform targetTransform, startLocation;
 
+    [SerializeField]
+    private InteractableInformantion interactablePanelInfo;
+
+    [SerializeField]
+    private bool displayBigPanel = true;
 
     #endregion
 
@@ -78,6 +83,10 @@ public class Interactable : MonoBehaviour
             case InteractableState.Idle:
 
                 StopCoroutine(grabbedCoroutine);
+                break;
+
+            case InteractableState.DisplayingInfo:
+                OnDisplayUIPanel.Invoke(interactablePanelInfo, displayBigPanel);
                 break;
 
             default:

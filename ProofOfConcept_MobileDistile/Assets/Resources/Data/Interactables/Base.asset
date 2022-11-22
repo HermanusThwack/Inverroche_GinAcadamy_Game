@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70620da4a18cd714a8f2bb324f130970, type: 3}
+  m_Name: Base
+  m_EditorClassIdentifier: 
+  stockImage: {fileID: 2800000, guid: 1d89d06026d1e66498eee3e5274e716a, type: 3}
+  interactableDiscription: "The base botanical ingredients to most gins in all gin
+    categories will be very similar if not the same. Incerroche is no exception.
+    The five base botanical ingredients for Inveroche are Juniper berries, Coriander,
+    Angelica root, Citrus peel, Cassia Bark(Cinnamon). \n\nJuniper Berries are present
+    in every gin as a botanical, in fact if it does not have Juniper berries it cannot
+    be called gin."

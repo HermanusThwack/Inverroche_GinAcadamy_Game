@@ -18,6 +18,7 @@ public class InteractableStateHandler : MonoBehaviour
 
 
     public static UnityEvent<Interactable> OnCurrentInteractableUsed = new UnityEvent<Interactable>();
+    public static UnityEvent OnDisplayUI = new UnityEvent();
 
     private Interactable currentInteractable;
 
@@ -42,5 +43,13 @@ public class InteractableStateHandler : MonoBehaviour
         OnCurrentInteractableUsed.Invoke(currentInteractable);
 
      
+    }
+
+    public void ChangeToDisplayInfo()
+    {
+        currentInteractable.ChangeCurrentState(InteractableState.DisplayingInfo,false);
+        OnCurrentInteractableUsed.Invoke(currentInteractable);
+        OnDisplayUI.Invoke();
+        
     }
 }

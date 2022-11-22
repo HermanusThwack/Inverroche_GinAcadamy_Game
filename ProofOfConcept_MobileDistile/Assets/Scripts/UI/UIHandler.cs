@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class UIHandler : MonoBehaviour
 {
@@ -12,13 +14,25 @@ public class UIHandler : MonoBehaviour
     /// </summary>
 
     #region SerializedFields
+    [Header("Animators"), SerializeField]
+    private Animator optionHandles, infoPanels;
+
+    [Header("Panel Components"), SerializeField]
+    private Image bigPanelImage;
+
     [SerializeField]
-    private Animator animator;
+    private Image smallPanelImage;
+
+    [SerializeField]
+    private TextMeshProUGUI bigPanelTextArea, smallPanelTextArea;
     #endregion
 
 
     #region private 
     private Interactable potentialInteractable, selectedInteractable;
+
+    private InteractableInformantion currentInteractableData;
+    private bool displayBigPanel;
 
     private Camera camera;
     #endregion
@@ -34,7 +48,8 @@ public class UIHandler : MonoBehaviour
     {
         InteractController.OnInteractableFound.AddListener(MoveInteractableUI);
         Interactable.OnStateChangeDisplayUI.AddListener(HandleDisplayingUI);
-
+        Interactable.OnDisplayUIPanel.AddListener(GetPanelInformation);
+        InteractableStateHandler.OnDisplayUI.AddListener(DisplayPanel);
 
     }
     private void Awake()
@@ -73,6 +88,11 @@ public class UIHandler : MonoBehaviour
 
 
     #region Handle showing and hiding UI
+
+    /// <summary>
+    /// Handle options UI
+    /// </summary>
+    /// <param name="showHide"></param>
     private void HandleDisplayingUI(bool showHide)
     {
 
@@ -88,19 +108,51 @@ public class UIHandler : MonoBehaviour
     IEnumerator ChangeUIAnimation(bool showHide)
     {
 
-        animator.CrossFade("ChangeTransparency", 0f);
+        optionHandles.CrossFade("ChangeTransparency", 0f);
         yield return new WaitForFixedUpdate();
         if (showHide)
         {
             yield return new WaitForSecondsRealtime(0.5f);
-            animator.CrossFade("ObjectOptions", 0.1f);
+            optionHandles.CrossFade("ObjectOptions", 0.1f);
         }
         else
         {
             yield return new WaitForEndOfFrame();
-            animator.CrossFade("Empty", 0f);
+            optionHandles.CrossFade("Empty", 0f);
         }
     }
+    /// <summary>
+    /// Interactable data for UI panels.
+    /// Bool to display big or small panel.
+    /// </summary>
+    /// <param name="_data"></param>
+    /// <param name="_displayBigPanel"></param>
+    private void GetPanelInformation(InteractableInformantion _data, bool _displayBigPanel)
+    {
+        currentInteractableData = _data;
+        displayBigPanel = _displayBigPanel;
+
+    }
+
+    public void DisplayPanel()
+    {
+        if (currentInteractableData != null)
+        {
+            if (displayBigPanel)
+            {
+                var newImage = Sprite.Create(currentInteractableData.stockImage, new Rect(0, 0, currentInteractableData.stockImage.width, currentInteractableData.stockImage.height), new Vector2(0, 0));
+                bigPanelImage.sprite = newImage;
+
+                bigPanelTextArea.text = currentInteractableData.interactableDiscription;
+
+                infoPanels.CrossFade("DisplayBigPanel", 0f);
+
+            }
+        }
+    }
+
+
+
     #endregion
 
 }
