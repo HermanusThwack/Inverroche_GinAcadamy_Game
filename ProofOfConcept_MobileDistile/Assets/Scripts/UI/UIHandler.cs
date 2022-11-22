@@ -148,9 +148,34 @@ public class UIHandler : MonoBehaviour
                 infoPanels.CrossFade("DisplayBigPanel", 0f);
 
             }
+            else
+            {
+                var newImage = Sprite.Create(currentInteractableData.stockImage, new Rect(0, 0, currentInteractableData.stockImage.width, currentInteractableData.stockImage.height), new Vector2(0, 0));
+                smallPanelImage.sprite = newImage;
+
+                smallPanelTextArea.text = currentInteractableData.interactableDiscription;
+
+                infoPanels.CrossFade("DisplaySmallPanel", 0f);
+            }
         }
     }
 
+    public void HidePanel()
+    {
+
+        if (displayBigPanel)
+        {
+            infoPanels.CrossFade("HideBigPanel", 1f);
+  
+        }
+        else
+        {
+            infoPanels.CrossFade("HideSmallPanel", 1f);
+        }
+
+
+
+    }
 
 
     #endregion
