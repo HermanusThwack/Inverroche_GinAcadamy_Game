@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class UIHandler : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class UIHandler : MonoBehaviour
     /// </summary>
 
     #region SerializedFields
+    [Header("Setting"), SerializeField]
+    private float uiYOffset;
+
+
     [Header("Animators"), SerializeField]
     private Animator optionHandles, infoPanels;
 
@@ -31,6 +36,7 @@ public class UIHandler : MonoBehaviour
     #region private 
     private Interactable potentialInteractable, selectedInteractable;
 
+    [SerializeField] // For debugging remove 
     private InteractableInformantion currentInteractableData;
     private bool displayBigPanel;
 
@@ -64,7 +70,7 @@ public class UIHandler : MonoBehaviour
 
     private void LookAtCamera()
     {
-        //ToDoCheck where the interactable is relative to the sceen and move it based on that.
+        //ToDoCheck where the interactable is relative to the screen and move it based on that.
         transform.LookAt(transform.position + camera.transform.rotation * Vector3.forward, camera.transform.rotation * Vector3.up);
     }
     private void MoveInteractableUI(Interactable foundInteractable)
@@ -79,7 +85,7 @@ public class UIHandler : MonoBehaviour
             HandleDisplayingUI(true);
             potentialInteractable = foundInteractable;
             selectedInteractable = foundInteractable;
-            Vector3 desiredLocation = new Vector3(potentialInteractable.transform.position.x, potentialInteractable.transform.position.y + 0.22f, potentialInteractable.transform.position.z);
+            Vector3 desiredLocation = new Vector3(potentialInteractable.transform.position.x, potentialInteractable.transform.position.y + uiYOffset, potentialInteractable.transform.position.z);
 
             transform.position = desiredLocation;
         }
@@ -129,15 +135,21 @@ public class UIHandler : MonoBehaviour
     /// <param name="_displayBigPanel"></param>
     private void GetPanelInformation(InteractableInformantion _data, bool _displayBigPanel)
     {
+        Debug.Log(_data.name + _displayBigPanel);
         currentInteractableData = _data;
         displayBigPanel = _displayBigPanel;
 
     }
 
+    /// <summary>
+    /// Display panel gets data from the interactable and based on a bool displays a big or small UI panel.
+    /// </summary>
     public void DisplayPanel()
     {
+        
         if (currentInteractableData != null)
         {
+            Debug.Log("Interactable not null "+ currentInteractableData);
             if (displayBigPanel)
             {
                 var newImage = Sprite.Create(currentInteractableData.stockImage, new Rect(0, 0, currentInteractableData.stockImage.width, currentInteractableData.stockImage.height), new Vector2(0, 0));
@@ -159,7 +171,9 @@ public class UIHandler : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Hides the UI Panel based on witch is active
+    /// </summary>
     public void HidePanel()
     {
 

@@ -29,6 +29,7 @@ public class InteractController : MonoBehaviour
         currentInteractable = _currentInteractable;
     }
 
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))

@@ -26,30 +26,36 @@ public class InteractableStateHandler : MonoBehaviour
     private void OnEnable()
     {
         InteractController.OnInteractableFound.AddListener(AssignCurrentInteractable);
- 
+
     }
 
 
     private void AssignCurrentInteractable(Interactable _currentInteractable)
     {
         currentInteractable = _currentInteractable;
-        currentInteractable.ChangeCurrentState(InteractableState.Interacted,true);  // -----> Interactable State <------
+        currentInteractable.ChangeCurrentState(InteractableState.Interacted, true);  // -----> Interactable State <------
     }
 
     public void ChangeToGrab()
     {
 
-        currentInteractable.ChangeCurrentState(InteractableState.Grabbed ,false);
-        OnCurrentInteractableUsed.Invoke(currentInteractable);
+        currentInteractable.ChangeCurrentState(InteractableState.Grabbed, false); // -----> Interactable State <------
+        OnCurrentInteractableUsed.Invoke(currentInteractable); // -----> Interactable State <------
 
-     
+
     }
 
     public void ChangeToDisplayInfo()
     {
-        currentInteractable.ChangeCurrentState(InteractableState.DisplayingInfo,false);
-        OnCurrentInteractableUsed.Invoke(currentInteractable);
-        OnDisplayUI.Invoke();
-        
+        currentInteractable.ChangeCurrentState(InteractableState.DisplayingInfo, false);// -----> Interactable State <------
+        OnCurrentInteractableUsed.Invoke(currentInteractable); // -----> UIHandler <------
+        OnDisplayUI.Invoke(); // -----> UIHandler <------
+
+    }
+
+    public void SelectInteractableItem()
+    {
+        currentInteractable.ChangeCurrentState(InteractableState.InteractableSelected, false);
+        OnCurrentInteractableUsed.Invoke(currentInteractable); 
     }
 }
