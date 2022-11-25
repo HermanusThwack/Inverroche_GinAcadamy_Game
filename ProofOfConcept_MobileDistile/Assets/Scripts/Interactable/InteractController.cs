@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -39,6 +40,7 @@ public class InteractController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 Debug.DrawLine(ray.origin, hit.point, Color.green);
+                Debug.LogWarning(hit.point);
                 if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable foundedInteractable))
                 {
                     potentialInteractable = foundedInteractable;
@@ -55,6 +57,8 @@ public class InteractController : MonoBehaviour
             }
 
         }
+
+   
 
         /// Find a diffrent wat to release the object 
         /// The idea is to place back in origanal location

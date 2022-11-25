@@ -4,6 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public enum InteractableState
@@ -153,7 +154,7 @@ public class Interactable : MonoBehaviour
         // Item changes cursor icon to inactive
         while (currentState == InteractableState.Grabbed)
         {
-            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, DepthDistance(targetLocation, startLocation) + offset)); // Dis current distance + calculated Distance
+            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0)) + new Vector3(0,0, DepthDistance(targetLocation, startLocation) + offset); // Dis current distance + calculated Distance
 
             yield return null;
         }
@@ -168,6 +169,21 @@ public class Interactable : MonoBehaviour
 
     #region MovingFeatures 
 
+    public float Depth()
+    {
+        float d = 0;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            d = hit.point.z;
+
+        } 
+
+            return d;
+    }
+    
     #region Lerp
     public void LerpInteractableToTarget()
     {
@@ -220,36 +236,37 @@ public class Interactable : MonoBehaviour
 
             // MoveCloser
 
-            Debug.LogWarning("Moving Closer");
-            depth -= draggingSpeed * Time.fixedDeltaTime; // speed rework to me same as mouse speed
-            if (depth <= targertLocation.z)
+
+            depth = transform.position.z - draggingSpeed; // speed rework to me same as mouse speed
+            if (transform.position.z <= targertLocation.z)
             {
                 // if we move past target location stop moving in the x direction
-                Debug.LogWarning($"target reached");
+                ;
                 return targertLocation.z;
+            }
+            return depth;
+
+        }
+        else if (x > z)
+        {
+            //MoveFurther away
+
+
+
+            depth = transform.position.z + draggingSpeed;
+            if (depth >= startedLocation.z)
+            {
+                // if we move past start location stop moving in the x direction
+
+                return startedLocation.z;
             }
             return depth;
 
         }
         else
         {
-            //MoveFurther away
-
-
-            Debug.LogWarning("Moving Away");
-            depth += draggingSpeed * Time.fixedDeltaTime;
-            if (depth >= startedLocation.z)
-            {
-                // if we move past start location stop moving in the x direction
-                Debug.LogWarning($"start reached");
-                return startedLocation.z;
-            }
-            return depth;
-
+            return 0f;
         }
-
-
-
 
     }
 
