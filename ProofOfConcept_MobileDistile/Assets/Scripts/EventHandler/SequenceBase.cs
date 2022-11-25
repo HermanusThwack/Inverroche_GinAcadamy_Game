@@ -17,4 +17,6 @@ public class SequenceBase
     public UnityEvent ginStep = new UnityEvent();
 
     public int index = 0; // Index step here
+
+    public bool nestedTasks = false;
 }

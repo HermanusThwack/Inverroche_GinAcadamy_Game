@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -40,7 +41,7 @@ public class Interactable : MonoBehaviour
     /// Moving the object around the screen will move the Z axis || Depth closer towards either targetTransform or StartLocation.
     /// </summary>
     [SerializeField]
-    private Transform targetTransform, startLocation;
+    private Transform targetTransform, startTransform;
 
     [SerializeField]
     private InteractableInformantion interactablePanelInfo;
@@ -48,12 +49,14 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private bool displayBigPanel = true;
 
+    [SerializeField]
+    private float draggingSpeed = 1f;
     #endregion
 
     #region Properties
     public InteractableState CurrentState { get => currentState; }
 
-    public Transform StartLocation { get => startLocation; }
+    public Transform StartLocation { get => startTransform; }
 
     /// <summary>
     /// For certain interactable target location might need to be able to change.
@@ -65,6 +68,7 @@ public class Interactable : MonoBehaviour
     #region private
     private Coroutine grabbedCoroutine;
     private Coroutine lerpInteractableCoroutine;
+    private Coroutine depthMovementCoroutine;
 
     private float speed = 0.5f;
     #endregion
@@ -137,21 +141,21 @@ public class Interactable : MonoBehaviour
 
     private IEnumerator StartGrabbing()
     {
-        float d = Vector3.Distance(transform.position, Camera.main.transform.position);
+
+        Vector3 targetLocation = new Vector3(targetTransform.position.x, targetTransform.position.y, targetTransform.position.z);
+        Vector3 startLocation = new Vector3(startTransform.position.x, startTransform.position.y, startTransform.position.z);
+        float d = Vector3.Distance(transform.position, Camera.main.transform.position); // Not sure what this is but adding
+
+        Debug.LogWarning($"D => {d}");
 
         // Item follows mouse
         // Item changes cursor icon to inactive
         while (currentState == InteractableState.Grabbed)
         {
-            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, d));
+            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, d + DepthDistance(targetLocation, startLocation))); // Dis current distance + calculated Distance
             yield return null;
         }
 
-
-    }
-
-    private void GetRelativeOffset(Transform _startPos, Transform _targetPos)
-    {
 
     }
 
@@ -165,14 +169,14 @@ public class Interactable : MonoBehaviour
     #region Lerp
     public void LerpInteractableToTarget()
     {
-        Vector3 startPosition = new Vector3(startLocation.position.x, startLocation.position.y, startLocation.position.z);
+        Vector3 startPosition = new Vector3(startTransform.position.x, startTransform.position.y, startTransform.position.z);
         Vector3 destination = new Vector3(targetTransform.position.x, targetTransform.position.y, targetTransform.position.z);
 
         if (lerpInteractableCoroutine != null)
         {
             StopCoroutine(lerpInteractableCoroutine);
         }
-        lerpInteractableCoroutine = StartCoroutine(StartLerpInteractable(startPosition, destination, 0f)) ;
+        lerpInteractableCoroutine = StartCoroutine(StartLerpInteractable(startPosition, destination, 0f));
     }
 
     IEnumerator StartLerpInteractable(Vector3 startPosition, Vector3 destination, float fraction)
@@ -193,6 +197,68 @@ public class Interactable : MonoBehaviour
 
     }
     #endregion
+
+    #region DepthMovement
+    /// <summary>
+    /// Based of the interactable target location and start location the object will move on the z axis deeper or more shallow.
+    /// </summary>
+    /// <param name="targertLocation"></param>
+    /// <param name="startedLocation"></param>
+    /// <returns></returns>
+    public float DepthDistance(Vector3 targertLocation, Vector3 startedLocation)
+    {
+        float depth = transform.position.z;
+        Vector3 currentLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+        float x = Vector3.Distance(targertLocation, currentLocation); //Distance between where the object is going and where it is.
+        float z = Vector3.Distance(startedLocation, currentLocation); // Distance between whera the object started and where it is.
+
+        Debug.LogWarning($" || x => {x} || z => {z}");
+
+        if (x < z) 
+        {
+            Debug.LogWarning("Moving Closer");
+            // MoveCloser
+            if (depth < targertLocation.z)
+            {
+
+                depth =+ draggingSpeed * Time.fixedDeltaTime; // speed rework to me same as mouse speed
+                Debug.LogWarning($"Depth is : {depth}");
+                return depth;
+            }
+            else if (depth >= targertLocation.z)
+            {
+                Debug.LogWarning($"target reached");
+                return targertLocation.z;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Moving Away");
+            //MoveFurther away
+            if (depth > startedLocation.z)
+            {
+
+                depth =- draggingSpeed * Time.fixedDeltaTime;
+                Debug.LogWarning($"Depth is : {depth}");
+                return depth;
+            }
+            else if (depth <= startedLocation.z)
+            {
+                Debug.LogWarning($"start reached");
+                return startedLocation.z;
+            }
+
+        }
+
+        return depth;
+
+    }
+
+
+
+    #endregion
+
     #endregion
 }
 
