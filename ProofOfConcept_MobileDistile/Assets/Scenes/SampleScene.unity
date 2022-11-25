@@ -1975,7 +1975,7 @@ MonoBehaviour:
   interactablePanelInfo: {fileID: 11400000, guid: 476c7896240718646b65be2b60119765,
     type: 2}
   displayBigPanel: 1
-  draggingSpeed: 100
+  draggingSpeed: 1
 --- !u!135 &949208667
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -144,15 +144,17 @@ public class Interactable : MonoBehaviour
 
         Vector3 targetLocation = new Vector3(targetTransform.position.x, targetTransform.position.y, targetTransform.position.z);
         Vector3 startLocation = new Vector3(startTransform.position.x, startTransform.position.y, startTransform.position.z);
-        float d = Vector3.Distance(transform.position, Camera.main.transform.position); // Not sure what this is but adding
+        float offset = Vector3.Distance(Vector3.zero + Vector3.up / 2, Camera.main.transform.position); // Not sure what this is but adding
 
-        Debug.LogWarning($"D => {d}");
+
+
 
         // Item follows mouse
         // Item changes cursor icon to inactive
         while (currentState == InteractableState.Grabbed)
         {
-            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, d + DepthDistance(targetLocation, startLocation))); // Dis current distance + calculated Distance
+            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, DepthDistance(targetLocation, startLocation) + offset)); // Dis current distance + calculated Distance
+
             yield return null;
         }
 
@@ -213,45 +215,41 @@ public class Interactable : MonoBehaviour
         float x = Vector3.Distance(targertLocation, currentLocation); //Distance between where the object is going and where it is.
         float z = Vector3.Distance(startedLocation, currentLocation); // Distance between whera the object started and where it is.
 
-        Debug.LogWarning($" || x => {x} || z => {z}");
-
-        if (x < z) 
+        if (x < z) // x Is smaller that means move toward x
         {
-            Debug.LogWarning("Moving Closer");
-            // MoveCloser
-            if (depth < targertLocation.z)
-            {
 
-                depth =+ draggingSpeed * Time.fixedDeltaTime; // speed rework to me same as mouse speed
-                Debug.LogWarning($"Depth is : {depth}");
-                return depth;
-            }
-            else if (depth >= targertLocation.z)
+            // MoveCloser
+
+            Debug.LogWarning("Moving Closer");
+            depth -= draggingSpeed * Time.fixedDeltaTime; // speed rework to me same as mouse speed
+            if (depth <= targertLocation.z)
             {
+                // if we move past target location stop moving in the x direction
                 Debug.LogWarning($"target reached");
                 return targertLocation.z;
             }
+            return depth;
+
         }
         else
         {
-            Debug.LogWarning("Moving Away");
             //MoveFurther away
-            if (depth > startedLocation.z)
-            {
 
-                depth =- draggingSpeed * Time.fixedDeltaTime;
-                Debug.LogWarning($"Depth is : {depth}");
-                return depth;
-            }
-            else if (depth <= startedLocation.z)
+
+            Debug.LogWarning("Moving Away");
+            depth += draggingSpeed * Time.fixedDeltaTime;
+            if (depth >= startedLocation.z)
             {
+                // if we move past start location stop moving in the x direction
                 Debug.LogWarning($"start reached");
                 return startedLocation.z;
             }
+            return depth;
 
         }
 
-        return depth;
+
+
 
     }
 
