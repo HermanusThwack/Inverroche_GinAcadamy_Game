@@ -2,7 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+public enum NoteType
+{
+    Floral,
+    Citrus,
+    Herbal,
+    Cool,
+    Spicy,
+    Rooibos,
+    Honeybush,
+    Nutmeg,
+    ToastedCoconut,
+    Salt,
+    DemeraraSugar,
+    Raisins
+}
 [CreateAssetMenu(menuName = "My Assets/Interactable Data")]
 public class InteractableInformantion : ScriptableObject
 {   
@@ -15,4 +29,6 @@ public class InteractableInformantion : ScriptableObject
 
     [Header("Discription"), TextArea()]
     public string interactableDiscription = new string("**");
+
+    public NoteType currentNote;
 }

@@ -4,6 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
@@ -38,6 +39,12 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private MoveCondition moveCondition = MoveCondition.GrabMovement;
 
+    [SerializeField]
+    private LayerMask targetLayer;
+
+    [SerializeField]
+    private Camera cam;
+
     /// <summary>
     /// Moving the object around the screen will move the Z axis || Depth closer towards either targetTransform or StartLocation.
     /// </summary>
@@ -52,6 +59,9 @@ public class Interactable : MonoBehaviour
 
     [SerializeField]
     private float draggingSpeed = 1f;
+
+    [SerializeField, Range(0.1f , 0.6f)]
+    private float calculatedOffset = 0.3f;
     #endregion
 
     #region Properties
@@ -63,6 +73,8 @@ public class Interactable : MonoBehaviour
     /// For certain interactable target location might need to be able to change.
     /// </summary>
     public Transform TargetTransform { get => targetTransform; set => targetTransform = value; }
+
+    public NoteType CurrentNoteType { get => currentNoteType; }
     #endregion
 
 
@@ -72,8 +84,14 @@ public class Interactable : MonoBehaviour
     private Coroutine depthMovementCoroutine;
 
     private float speed = 0.5f;
+    private NoteType currentNoteType;
     #endregion
 
+
+    private void Awake()
+    {
+        currentNoteType = interactablePanelInfo.currentNote;
+    }
 
     /// <summary>
     /// new state change state in code. Show Hide -> show or hide ui
@@ -147,15 +165,13 @@ public class Interactable : MonoBehaviour
         Vector3 startLocation = new Vector3(startTransform.position.x, startTransform.position.y, startTransform.position.z);
         float offset = Vector3.Distance(Vector3.zero + Vector3.up / 2, Camera.main.transform.position); // Not sure what this is but adding
 
-
-
-
         // Item follows mouse
         // Item changes cursor icon to inactive
         while (currentState == InteractableState.Grabbed)
         {
-            transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0)) + new Vector3(0,0, DepthDistance(targetLocation, startLocation) + offset); // Dis current distance + calculated Distance
 
+            transform.position = RayOffesetPosition();// Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane / (offset + DepthDistance(targetLocation, startLocation))));
+            //transform.position += new Vector3(0, 0, DepthDistance(targetLocation, startLocation));
             yield return null;
         }
 
@@ -169,21 +185,32 @@ public class Interactable : MonoBehaviour
 
     #region MovingFeatures 
 
-    public float Depth()
+    #region RaycastAndOffset
+
+    public Vector3 RayOffesetPosition()
     {
-        float d = 0;
+        Vector3 desiredPos = new Vector3(0, 0, 0);
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, targetLayer))
         {
-            d = hit.point.z;
+            Debug.DrawLine(ray.origin, hit.point, Color.green);
+            Debug.LogWarning(hit.normal);
 
-        } 
+            Vector3 calculatedPosition = new Vector3(hit.normal.x * calculatedOffset, hit.normal.y * calculatedOffset, hit.normal.z * calculatedOffset);
 
-            return d;
+            desiredPos = hit.point + calculatedPosition;
+        }
+
+
+        return desiredPos;
     }
-    
+
+
+    #endregion
+
     #region Lerp
     public void LerpInteractableToTarget()
     {
@@ -236,25 +263,22 @@ public class Interactable : MonoBehaviour
 
             // MoveCloser
 
-
-            depth = transform.position.z - draggingSpeed; // speed rework to me same as mouse speed
-            if (transform.position.z <= targertLocation.z)
+            depth -= draggingSpeed; // speed rework to me same as mouse speed
+            if (transform.position.z < targertLocation.z)
             {
                 // if we move past target location stop moving in the x direction
-                ;
+
                 return targertLocation.z;
             }
             return depth;
 
         }
-        else if (x > z)
+        else
         {
             //MoveFurther away
 
-
-
-            depth = transform.position.z + draggingSpeed;
-            if (depth >= startedLocation.z)
+            depth += draggingSpeed;
+            if (depth > startedLocation.z)
             {
                 // if we move past start location stop moving in the x direction
 
@@ -263,10 +287,7 @@ public class Interactable : MonoBehaviour
             return depth;
 
         }
-        else
-        {
-            return 0f;
-        }
+
 
     }
 
