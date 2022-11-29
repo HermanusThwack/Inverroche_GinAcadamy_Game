@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70620da4a18cd714a8f2bb324f130970, type: 3}
+  m_Name: TeaBag
+  m_EditorClassIdentifier: 
+  stockImage: {fileID: 2800000, guid: 0fb80c6b20a70234f90bbdfb158d11ea, type: 3}
+  interactableDiscription: A tea bag like object that gets put into the still to
+    make gin
+  currentNote: 0

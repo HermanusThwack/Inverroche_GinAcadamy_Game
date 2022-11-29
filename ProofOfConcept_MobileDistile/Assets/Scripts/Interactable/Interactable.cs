@@ -1,12 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.UIElements;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+
 
 public enum InteractableState
 {
@@ -18,12 +13,6 @@ public enum InteractableState
 
 }
 
-public enum MoveCondition
-{
-    GrabMovement,
-    ArchMovement,
-    ClickMovement
-}
 public class Interactable : MonoBehaviour
 {
     #region UnityEvents
@@ -35,9 +24,6 @@ public class Interactable : MonoBehaviour
     #region SerializeFields
     [SerializeField]
     private InteractableState currentState = InteractableState.Idle;
-
-    [SerializeField]
-    private MoveCondition moveCondition = MoveCondition.GrabMovement;
 
     [SerializeField]
     private LayerMask targetLayer;
@@ -130,7 +116,7 @@ public class Interactable : MonoBehaviour
                 break;
 
             case InteractableState.InteractableSelected:
-                LerpInteractableToTarget();
+                LerpInteractableToTarget(); // Change to selected object purpose
                 break;
 
             default:
@@ -243,8 +229,9 @@ public class Interactable : MonoBehaviour
     }
     #endregion
 
-    #region DepthMovement
+    #region DepthMovement 
     /// <summary>
+    /// Feature not impleminted bugs => Bug fixing
     /// Based of the interactable target location and start location the object will move on the z axis deeper or more shallow.
     /// </summary>
     /// <param name="targertLocation"></param>

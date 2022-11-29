@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum NoteType
 {
+    NoneNoteType,
     Floral,
     Citrus,
     Herbal,
