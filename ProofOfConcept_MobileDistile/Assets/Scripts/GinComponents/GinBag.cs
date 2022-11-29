@@ -25,6 +25,7 @@ public class GinBag : MonoBehaviour
     #endregion
 
     #region Private
+    [SerializeField] // Remove later
     private int floralCount = 0, citrusCount = 0, herbalCount = 0, coolCount = 0, spicyCount = 0;
     #endregion
 
