@@ -135,7 +135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4427945}
   - component: {fileID: 4427946}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MortarPestle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 105870716}
   - component: {fileID: 105870715}
   - component: {fileID: 105870714}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1263,6 +1263,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afdc30be89aa9174faaa63ceff68e1e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCam: {fileID: 330585545}
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  tableLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &365816149
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,7 +2246,7 @@ GameObject:
   - component: {fileID: 671671981}
   - component: {fileID: 671671980}
   - component: {fileID: 671671979}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2955,7 +2962,7 @@ GameObject:
   - component: {fileID: 949208668}
   - component: {fileID: 949208667}
   - component: {fileID: 949208666}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lavender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3155,7 +3162,7 @@ GameObject:
   - component: {fileID: 978633124}
   - component: {fileID: 978633123}
   - component: {fileID: 978633122}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LemonZest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5547,7 +5554,7 @@ GameObject:
   - component: {fileID: 1532624961}
   - component: {fileID: 1532624960}
   - component: {fileID: 1532624964}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tea Bag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5772,7 +5779,7 @@ GameObject:
   - component: {fileID: 1634211978}
   - component: {fileID: 1634211977}
   - component: {fileID: 1634211976}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BaseBotanical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6839,7 +6846,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1943725466}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Still
   m_TagString: Untagged
   m_Icon: {fileID: 0}

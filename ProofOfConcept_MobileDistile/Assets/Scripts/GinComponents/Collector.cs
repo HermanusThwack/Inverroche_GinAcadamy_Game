@@ -73,6 +73,7 @@ public class Collector : MonoBehaviour
                 if (col[i].TryGetComponent<Interactable>(out Interactable interactable))
                 {
                     AddBotanical(interactable);
+                    interactable.ChangeCurrentState(InteractableState.Idle,false);
                     col[i].gameObject.SetActive(false);
                 }
             }

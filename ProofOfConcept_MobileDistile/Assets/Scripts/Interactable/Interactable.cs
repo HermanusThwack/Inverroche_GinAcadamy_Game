@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -46,7 +47,7 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private float draggingSpeed = 1f;
 
-    [SerializeField, Range(0.1f , 0.6f)]
+    [SerializeField, Range(0.1f, 0.6f)]
     private float calculatedOffset = 0.3f;
     #endregion
 
@@ -69,10 +70,10 @@ public class Interactable : MonoBehaviour
     private Coroutine lerpInteractableCoroutine;
     private Coroutine depthMovementCoroutine;
 
+    private RaycastHit hitResult;
     private float speed = 0.5f;
     private NoteType currentNoteType;
     #endregion
-
 
     private void Awake()
     {
@@ -104,10 +105,11 @@ public class Interactable : MonoBehaviour
 
                 break;
             case InteractableState.Grabbed:
+                InteractController.OnPositionTracking.AddListener(GetTrackedPosition);
                 GrabbedState();
                 break;
             case InteractableState.Idle:
-
+                InteractController.OnPositionTracking.RemoveListener(GetTrackedPosition);
                 StopCoroutine(grabbedCoroutine);
                 break;
 
@@ -177,23 +179,21 @@ public class Interactable : MonoBehaviour
     {
         Vector3 desiredPos = new Vector3(0, 0, 0);
 
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, targetLayer))
+        if (currentState == InteractableState.Grabbed)
         {
-            Debug.DrawLine(ray.origin, hit.point, Color.green);
-            Debug.LogWarning(hit.normal);
-
-            Vector3 calculatedPosition = new Vector3(hit.normal.x * calculatedOffset, hit.normal.y * calculatedOffset, hit.normal.z * calculatedOffset);
-
-            desiredPos = hit.point + calculatedPosition;
+            Vector3 calculatedPosition = new Vector3(hitResult.normal.x * calculatedOffset, hitResult.normal.y * calculatedOffset, hitResult.normal.z * calculatedOffset);
+            desiredPos = hitResult.point + calculatedPosition;
         }
 
 
         return desiredPos;
     }
 
+    private void GetTrackedPosition(RaycastHit _hitResult)
+    {
+
+        hitResult = _hitResult;
+    }
 
     #endregion
 
