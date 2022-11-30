@@ -53,8 +53,9 @@ public class InteractableStateHandler : MonoBehaviour
 
     }
 
-    public void SelectInteractableItem()
+    public void ChangeToInteracted()
     {
+        Debug.Log("Interacted");
         currentInteractable.ChangeCurrentState(InteractableState.InteractableSelected, false);
         OnCurrentInteractableUsed.Invoke(currentInteractable); 
     }

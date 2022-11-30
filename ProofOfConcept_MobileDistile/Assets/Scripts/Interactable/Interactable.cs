@@ -110,6 +110,7 @@ public class Interactable : MonoBehaviour
                 break;
             case InteractableState.Idle:
                 InteractController.OnPositionTracking.RemoveListener(GetTrackedPosition);
+                if (grabbedCoroutine == null) return;
                 StopCoroutine(grabbedCoroutine);
                 break;
 
@@ -212,7 +213,6 @@ public class Interactable : MonoBehaviour
 
     IEnumerator StartLerpInteractable(Vector3 startPosition, Vector3 destination, float fraction)
     {
-
 
         while (true)
         {
