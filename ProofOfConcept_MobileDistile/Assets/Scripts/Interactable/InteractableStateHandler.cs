@@ -36,14 +36,6 @@ public class InteractableStateHandler : MonoBehaviour
         currentInteractable.ChangeCurrentState(InteractableState.Interacted, true);  // -----> Interactable State <------
     }
 
-    public void ChangeToGrab()
-    {
-
-        currentInteractable.ChangeCurrentState(InteractableState.Grabbed, false); // -----> Interactable State <------
-        OnCurrentInteractableUsed.Invoke(currentInteractable); // -----> Interactable State <------
-
-
-    }
 
     public void ChangeToDisplayInfo()
     {

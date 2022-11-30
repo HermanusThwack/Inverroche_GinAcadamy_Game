@@ -14,7 +14,8 @@ public class Collector : MonoBehaviour
     [SerializeField]
     private List<Interactable> botanicalsAdded = new List<Interactable>();
 
-
+    [SerializeField]
+    private Collider ownCollider;
     /// <summary>
     /// Restperiod is for the coroutine to wait before doing another physics call || Sphere size is the physics overlap cirle.
     /// </summary>
@@ -22,6 +23,7 @@ public class Collector : MonoBehaviour
     private float restPeriod = 0.2f, sphereSize = 0.2f;
 
     #endregion
+
 
 
     #region Coroutine 
@@ -70,15 +72,18 @@ public class Collector : MonoBehaviour
 
             for (int i = 0; i < col.Length; i++)
             {
-                if (col[i].TryGetComponent<Interactable>(out Interactable interactable))
+                if (col[i] != ownCollider)
                 {
-                    AddBotanical(interactable);
-                    interactable.ChangeCurrentState(InteractableState.Idle,false);
-                    col[i].gameObject.SetActive(false);
+                    
+                    if (col[i].TryGetComponent<Interactable>(out Interactable interactable))
+                    {
+                        AddBotanical(interactable);
+                        interactable.ChangeCurrentState(InteractableState.Idle, false);
+                        col[i].gameObject.SetActive(false);
+                    }
                 }
             }
 
         }
     }
 }
- 

@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   botanicalsAdded: []
+  ownCollider: {fileID: 0}
   restPeriod: 0.2
   sphereSize: 0.2
 --- !u!1 &26235830
@@ -338,6 +339,7 @@ GameObject:
   - component: {fileID: 105870716}
   - component: {fileID: 105870715}
   - component: {fileID: 105870714}
+  - component: {fileID: 105870718}
   m_Layer: 7
   m_Name: Mint
   m_TagString: Untagged
@@ -374,17 +376,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  cam: {fileID: 330585545}
-  targetTransform: {fileID: 4427945}
-  startTransform: {fileID: 105870713}
+  interactableMovement: {fileID: 105870718}
   interactablePanelInfo: {fileID: 11400000, guid: 00eadc58aba6a17449795917a810fafd,
     type: 2}
   displayBigPanel: 0
-  draggingSpeed: 1
-  calculatedOffset: 0.2
+  draggingMovement: 1
 --- !u!135 &105870715
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -448,6 +444,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105870712}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &105870718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105870712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde6f4c2493cf4248969288230404c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 4427945}
+  startTransform: {fileID: 105870713}
+  draggingSpeed: 1
+  interactable: {fileID: 105870714}
+  calculatedOffset: 0.2
 --- !u!1 &119910488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,6 +2921,7 @@ GameObject:
   - component: {fileID: 949208668}
   - component: {fileID: 949208667}
   - component: {fileID: 949208666}
+  - component: {fileID: 949208670}
   m_Layer: 7
   m_Name: Lavender
   m_TagString: Untagged
@@ -2944,17 +2958,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  cam: {fileID: 330585545}
-  targetTransform: {fileID: 4427945}
-  startTransform: {fileID: 949208665}
+  interactableMovement: {fileID: 949208670}
   interactablePanelInfo: {fileID: 11400000, guid: 3eda8c5815acb4545bd7b32dc0523d40,
     type: 2}
   displayBigPanel: 0
-  draggingSpeed: 1
-  calculatedOffset: 0.2
+  draggingMovement: 1
 --- !u!135 &949208667
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3018,6 +3026,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949208664}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &949208670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949208664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde6f4c2493cf4248969288230404c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 4427945}
+  startTransform: {fileID: 949208665}
+  draggingSpeed: 1
+  interactable: {fileID: 949208666}
+  calculatedOffset: 0.2
 --- !u!1 &974010053
 GameObject:
   m_ObjectHideFlags: 0
@@ -3108,6 +3133,7 @@ GameObject:
   - component: {fileID: 978633124}
   - component: {fileID: 978633123}
   - component: {fileID: 978633122}
+  - component: {fileID: 978633126}
   m_Layer: 7
   m_Name: LemonZest
   m_TagString: Untagged
@@ -3144,17 +3170,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  cam: {fileID: 330585545}
-  targetTransform: {fileID: 4427945}
-  startTransform: {fileID: 978633121}
+  interactableMovement: {fileID: 978633126}
   interactablePanelInfo: {fileID: 11400000, guid: 4aa436d164f418743848a2dac9f4f4e8,
     type: 2}
   displayBigPanel: 0
-  draggingSpeed: 1
-  calculatedOffset: 0.2
+  draggingMovement: 0
 --- !u!135 &978633123
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3218,6 +3238,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978633120}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &978633126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978633120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde6f4c2493cf4248969288230404c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 4427945}
+  startTransform: {fileID: 978633121}
+  draggingSpeed: 1
+  interactable: {fileID: 978633122}
+  calculatedOffset: 0.2
 --- !u!1 &979584561
 GameObject:
   m_ObjectHideFlags: 0
@@ -5500,6 +5537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   botanicalsAdded: []
+  ownCollider: {fileID: 1532624961}
   restPeriod: 0.5
   sphereSize: 0.1
 --- !u!65 &1532624961
@@ -5511,7 +5549,7 @@ BoxCollider:
   m_GameObject: {fileID: 1532624958}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -5578,17 +5616,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  cam: {fileID: 330585545}
-  targetTransform: {fileID: 1943725466}
-  startTransform: {fileID: 1532624959}
+  interactableMovement: {fileID: 0}
   interactablePanelInfo: {fileID: 11400000, guid: b37eb7e2e75c797479cf7575b57b4c6c,
     type: 2}
   displayBigPanel: 1
-  draggingSpeed: 1
-  calculatedOffset: 0.3
+  draggingMovement: 0
 --- !u!1 &1614720094
 GameObject:
   m_ObjectHideFlags: 0
@@ -5689,6 +5721,7 @@ GameObject:
   - component: {fileID: 1634211978}
   - component: {fileID: 1634211977}
   - component: {fileID: 1634211976}
+  - component: {fileID: 1634211980}
   m_Layer: 7
   m_Name: BaseBotanical
   m_TagString: Untagged
@@ -5725,17 +5758,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  cam: {fileID: 330585545}
-  targetTransform: {fileID: 4427945}
-  startTransform: {fileID: 1634211975}
+  interactableMovement: {fileID: 1634211980}
   interactablePanelInfo: {fileID: 11400000, guid: 476c7896240718646b65be2b60119765,
     type: 2}
   displayBigPanel: 1
-  draggingSpeed: 1
-  calculatedOffset: 0.2
+  draggingMovement: 0
 --- !u!135 &1634211977
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5799,6 +5826,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634211974}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1634211980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634211974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde6f4c2493cf4248969288230404c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 4427945}
+  startTransform: {fileID: 1634211975}
+  draggingSpeed: 1
+  interactable: {fileID: 1634211976}
+  calculatedOffset: 0.2
 --- !u!1 &1725983768
 GameObject:
   m_ObjectHideFlags: 0

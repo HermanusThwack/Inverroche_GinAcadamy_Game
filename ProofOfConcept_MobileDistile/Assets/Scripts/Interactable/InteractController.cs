@@ -96,7 +96,7 @@ public class InteractController : MonoBehaviour
                 OnPositionTracking.Invoke(hit); // ----> current selected interactable
 
                 // if interactable is deselected look for a new interactable
-                if (currentInteractable.CurrentState != InteractableState.Grabbed)
+                if (currentInteractable.CurrentState != InteractableState.InteractableSelected)
                 {
                     ClearInteractable();
                 }
