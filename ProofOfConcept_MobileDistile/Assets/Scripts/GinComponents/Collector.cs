@@ -12,10 +12,13 @@ public class Collector : MonoBehaviour
     #region SerializedFields
 
     [SerializeField]
-    private List<Interactable> botanicalsAdded = new List<Interactable>();
+    public List<Interactable> botanicalsAdded = new List<Interactable>();
 
     [SerializeField]
     private Collider ownCollider;
+
+    [SerializeField]
+    private CollectableBy collectionType;
     /// <summary>
     /// Restperiod is for the coroutine to wait before doing another physics call || Sphere size is the physics overlap cirle.
     /// </summary>
@@ -74,16 +77,26 @@ public class Collector : MonoBehaviour
             {
                 if (col[i] != ownCollider)
                 {
-                    
+
                     if (col[i].TryGetComponent<Interactable>(out Interactable interactable))
-                    {
-                        AddBotanical(interactable);
-                        interactable.ChangeCurrentState(InteractableState.Idle, false);
-                        col[i].gameObject.SetActive(false);
-                    }
+
+                        if (collectionType == interactable.interactablePanelInfo.canBeCollectedBy) { 
+                        
+                            AddBotanical(interactable);
+                            interactable.ChangeCurrentState(InteractableState.Idle, false);
+                            col[i].gameObject.SetActive(false);
+                        }
                 }
             }
-
         }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+
+        Gizmos.DrawWireSphere(transform.position, sphereSize);
     }
 }
+

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70620da4a18cd714a8f2bb324f130970, type: 3}
   m_Name: Still
   m_EditorClassIdentifier: 
+  componentName: 
   stockImage: {fileID: 2800000, guid: 52da42703525bcb4495c411001a5ab17, type: 3}
   interactableDiscription: A tea bag like object that gets put into the still to
     make gin
+  canBeCollectedBy: 5
   currentNote: 0

@@ -26,27 +26,30 @@ public class Interactable : MonoBehaviour
     private InteractableState currentState = InteractableState.Idle;
 
     [SerializeField]
+    private IInteractableAction interactableAction;
+
     private InteractableMovement interactableMovement;
-
-
 
     /// <summary>
     /// Moving the object around the screen will move the Z axis || Depth closer towards either targetTransform or StartLocation.
     /// </summary>
 
     [SerializeField]
-    private InteractableInformantion interactablePanelInfo;
+    public InteractableInformantion interactablePanelInfo;
 
     [SerializeField]
     private bool displayBigPanel = true;
 
-    [SerializeField]
-    private bool draggingMovement = true;
     #endregion
 
+    #region private
+    private Coroutine grabbedCoroutine;
+    private bool isCollectable = false;
+
+    #endregion
     #region Properties
     public InteractableState CurrentState { get => currentState; }
-
+    public bool IsCollectable { get => IsCollectable; set => isCollectable = value; }
 
     /// <summary>
     /// For certain interactable target location might need to be able to change.
@@ -55,11 +58,30 @@ public class Interactable : MonoBehaviour
     #endregion
 
 
-    #region private
-    private Coroutine grabbedCoroutine;
 
-    #endregion
 
+    private void Awake()
+    {
+        if (gameObject.TryGetComponent<IInteractableAction>(out IInteractableAction _interactableAction))
+        {
+            interactableAction = _interactableAction;
+
+        }
+        else
+        {
+            Debug.LogError($"Interactable Action Not Found || Please Add a component that is typeof IInteractableAction to {gameObject.name}");
+        }
+
+        if (gameObject.TryGetComponent<InteractableMovement>(out InteractableMovement interactable))
+        {
+            interactableMovement = interactable;
+
+        }
+        else
+        {
+            Debug.LogWarning("If Interactable needs to move. || Please Add a compontent that is typeof InteractableMovement.");
+        }
+    }
 
     /// <summary>
     /// new state change state in code. Show Hide -> show or hide ui
@@ -86,25 +108,30 @@ public class Interactable : MonoBehaviour
 
                 break;
             case InteractableState.Idle:
-                InteractController.OnPositionTracking.RemoveListener(interactableMovement.GetTrackedPosition); // Find a diffrent way to do this
+
+                if (interactableMovement != null)
+                {
+                    InteractController.OnPositionTracking.RemoveListener(interactableMovement.GetTrackedPosition);
+                }
+
                 if (grabbedCoroutine == null) return;
                 StopCoroutine(grabbedCoroutine);
                 break;
 
             case InteractableState.DisplayingInfo:
+
+                if (interactableMovement != null)
+                {
+                    InteractController.OnPositionTracking.RemoveListener(interactableMovement.GetTrackedPosition);
+                }
+
                 OnDisplayUIPanel.Invoke(interactablePanelInfo, displayBigPanel);
                 break;
 
             case InteractableState.InteractableSelected:
-                if (draggingMovement)
-                {
-                    InteractController.OnPositionTracking.AddListener(interactableMovement.GetTrackedPosition);
-                    interactableMovement.InitializeGrabbing();
-                }
-                else
-                {
-                    interactableMovement.LerpInteractableToTarget();
-                }
+
+                // Made this an Interface for more convience 
+                interactableAction.Interacted();
 
                 break;
 

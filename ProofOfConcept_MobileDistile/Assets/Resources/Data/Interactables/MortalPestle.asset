@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70620da4a18cd714a8f2bb324f130970, type: 3}
-  m_Name: TeaBag
+  m_Name: MortalPestle
   m_EditorClassIdentifier: 
   componentName: 
-  stockImage: {fileID: 2800000, guid: 0fb80c6b20a70234f90bbdfb158d11ea, type: 3}
-  interactableDiscription: A tea bag like object that gets put into the still to
-    make gin
-  canBeCollectedBy: 2
+  stockImage: {fileID: 2800000, guid: 9103ef68136025144a4a5493a469ebce, type: 3}
+  interactableDiscription: This is a mortar and pestle it does crushy things.
+  canBeCollectedBy: 5
   currentNote: 0

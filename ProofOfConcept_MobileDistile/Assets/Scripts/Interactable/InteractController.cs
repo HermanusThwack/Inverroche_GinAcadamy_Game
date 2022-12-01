@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,8 +14,10 @@ using UnityEngine.Events;
 /// and potential interactable becomes null.
 /// </summary>
 
-public class InteractController : MonoBehaviour
+public class InteractController : MonoBehaviour 
 {
+
+    
     #region UnityEvents
     public static UnityEvent<Interactable> OnInteractableFound = new UnityEvent<Interactable>();
 
@@ -24,6 +27,7 @@ public class InteractController : MonoBehaviour
     #endregion
 
     #region SerializedFields
+
 
     //Does not do api call every frame with getting mousePosition.
     [SerializeField]
@@ -37,11 +41,11 @@ public class InteractController : MonoBehaviour
     // potential intercactable is when you click on the interactable but does select a option, where as current interactable you have selected an option.
     private Interactable potentialInteractable, currentInteractable;
 
-    // Only initialize once out of update loop.
+
     private Ray ray;
     private RaycastHit hit;
-     
     #endregion
+
     private void Start()
     {
         if (mainCam != null) return; mainCam.GetComponent<Camera>(); // Assign in inspector.
@@ -65,12 +69,13 @@ public class InteractController : MonoBehaviour
         //Keep looking for intectable untill on is found
         if (currentInteractable == null)
         {
-
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, interactableLayer))
             {
                 Debug.DrawLine(ray.origin, hit.point, Color.blue);
                 if (Input.GetMouseButtonDown(0))
                 {
+           
+
                     if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable foundedInteractable))
                     {
                         potentialInteractable = foundedInteractable;
@@ -82,9 +87,8 @@ public class InteractController : MonoBehaviour
 
 
                     }
-
-
                 }
+              
             }
         }
         //After interactable is found send the position data to that interactable
@@ -101,16 +105,15 @@ public class InteractController : MonoBehaviour
                     ClearInteractable();
                 }
             }
-
-
         }
-
     }
 
     /// <summary>
     /// Clears current interactable
     /// </summary>
     public void ClearInteractable() { currentInteractable = null; }
+
+
 
 
 }

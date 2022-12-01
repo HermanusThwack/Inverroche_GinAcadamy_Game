@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableMovement : MonoBehaviour
+public class InteractableMovement : MonoBehaviour, IInteractableAction
 {
+
+    [SerializeField]
+    private bool isDragging = false;
+
     [SerializeField]
     private Transform targetTransform, startTransform;
 
@@ -29,9 +33,29 @@ public class InteractableMovement : MonoBehaviour
 
     #region Grabbing
 
+
+
+    /// <summary>
+    ///  
+    /// </summary>
+    /// <exception cref="System.NotImplementedException"></exception>
+    public void Interacted()
+    {
+        MovementTypeSelection();
+    }
     /// <summary>
     /// Initializer for the StartGrabbing Coroutine 
     /// </summary>
+    public void MovementTypeSelection()
+    {
+        InteractController.OnPositionTracking.AddListener(GetTrackedPosition);
+
+        if(isDragging)
+            InitializeGrabbing();
+        else
+            InitializeMoveToTarget();
+            
+    }
     public void InitializeGrabbing()
     {
         if (grabbedCoroutine != null)
@@ -91,7 +115,7 @@ public class InteractableMovement : MonoBehaviour
 
 
     #region Lerp
-    public void LerpInteractableToTarget()
+    public void InitializeMoveToTarget()
     {
         Vector3 startPosition = new Vector3(startTransform.position.x, startTransform.position.y, startTransform.position.z);
         Vector3 destination = new Vector3(targetTransform.position.x, targetTransform.position.y, targetTransform.position.z);
@@ -119,6 +143,8 @@ public class InteractableMovement : MonoBehaviour
 
 
     }
+
+
     #endregion
 
     #endregion
