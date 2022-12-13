@@ -20,8 +20,12 @@ public class InteractableMovement : MonoBehaviour, IInteractableAction
     [SerializeField, Range(0.1f, 0.6f)]
     private float calculatedOffset = 0.2f;
 
+    [SerializeField]
+    private bool canMove = true;
     public Transform StartLocation { get => startTransform; }
     public Transform TargetTransform { get => targetTransform; set => targetTransform = value; }
+
+    public bool CanMove { get => canMove; set => canMove = value; }
 
     private Coroutine grabbedCoroutine;
     private Coroutine lerpInteractableCoroutine;
@@ -31,9 +35,12 @@ public class InteractableMovement : MonoBehaviour, IInteractableAction
 
     #region MovingFeatures 
 
-    #region Grabbing
+    #region Grabbingfeature
 
-
+    private void Start()
+    {
+        //To turn on and off object in runtime and through inspector events if necessary
+    }
 
     /// <summary>
     ///  
@@ -41,6 +48,7 @@ public class InteractableMovement : MonoBehaviour, IInteractableAction
     /// <exception cref="System.NotImplementedException"></exception>
     public void Interacted()
     {
+        if (!canMove) return;
         MovementTypeSelection();
     }
     /// <summary>
@@ -50,11 +58,11 @@ public class InteractableMovement : MonoBehaviour, IInteractableAction
     {
         InteractController.OnPositionTracking.AddListener(GetTrackedPosition);
 
-        if(isDragging)
+        if (isDragging)
             InitializeGrabbing();
         else
             InitializeMoveToTarget();
-            
+
     }
     public void InitializeGrabbing()
     {
@@ -77,7 +85,6 @@ public class InteractableMovement : MonoBehaviour, IInteractableAction
         // Item changes cursor icon to inactive
         while (true)
         {
-
             transform.position = RayOffesetPosition();// Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane / (offset + DepthDistance(targetLocation, startLocation))));
             //transform.position += new Vector3(0, 0, DepthDistance(targetLocation, startLocation));
             yield return null;

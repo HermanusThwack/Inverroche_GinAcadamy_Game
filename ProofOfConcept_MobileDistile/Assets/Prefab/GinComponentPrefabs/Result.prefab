@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
+  refreshRate: 5
 --- !u!1 &189300247514879607
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +60,6 @@ GameObject:
   - component: {fileID: 1303299690006026462}
   - component: {fileID: 4616665615247341624}
   - component: {fileID: 1991981278983086761}
-  - component: {fileID: 1754325793740089096}
   - component: {fileID: -2293758468208013401}
   m_Layer: 7
   m_Name: Result
@@ -160,26 +160,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  interactablePanelInfo: {fileID: 11400000, guid: 4e37530b0a4ae67459f123d0ca9c8790,
-    type: 2}
+  interactableData: {fileID: 11400000, guid: 4e37530b0a4ae67459f123d0ca9c8790, type: 2}
   displayBigPanel: 1
---- !u!114 &1754325793740089096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189300247514879607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39b74eb63230d0943917a5bd7531afcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  botanicalsAdded: []
-  ownCollider: {fileID: 4616665615247341624}
-  collectionType: 0
-  restPeriod: 0.2
-  sphereSize: 0.05
 --- !u!114 &-2293758468208013401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +180,7 @@ MonoBehaviour:
   draggingSpeed: 1
   interactable: {fileID: 1991981278983086761}
   calculatedOffset: 0.2
+  canMove: 1
 --- !u!1 &798018630258483221
 GameObject:
   m_ObjectHideFlags: 0

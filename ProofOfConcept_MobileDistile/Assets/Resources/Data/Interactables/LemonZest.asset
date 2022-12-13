@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70620da4a18cd714a8f2bb324f130970, type: 3}
   m_Name: LemonZest
   m_EditorClassIdentifier: 
+  componentName: Lemon Zest
   stockImage: {fileID: 2800000, guid: da5efffb1c40e7646a52461cdd0577bf, type: 3}
   interactableDiscription: The zest of a lemon contains rich essential oils free
     of the citrus fruit's acids, these are used to transfer flavour into gin rather
     than the acids from the fruit which would rather damage the oils extracted from
     the other botanicals.
+  canBeCollectedBy: 0
   currentNote: 1

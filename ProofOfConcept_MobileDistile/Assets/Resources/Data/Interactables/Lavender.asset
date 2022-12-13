@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70620da4a18cd714a8f2bb324f130970, type: 3}
   m_Name: Lavender
   m_EditorClassIdentifier: 
+  componentName: Lavender
   stockImage: {fileID: 2800000, guid: bd1c5dbf66a80dd4b90fc4eda2fabab1, type: 3}
   interactableDiscription: "The name \u201Clavender\u201D originates from Latin word
     \u201Clavare\u201C, which means \u201Cto wash\u201D. Lavender was an important
     part of bathing rituals in ancient Rome because of it\u2019s disinfectant and
     antiseptic properties."
+  canBeCollectedBy: 0
+  currentNote: 0

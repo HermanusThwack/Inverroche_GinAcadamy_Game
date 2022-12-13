@@ -17,11 +17,12 @@ public class MortalPestal : Collector, IInteractableAction
     private Coroutine processBotanicalsCoroutine;
     public void Interacted()
     {
-        if (botanicalsAdded.Count == 0)
+        if (DataManager.Instance.PotentialRecipe.Count == 0)
         {
             animator.Play("Reset");
             return;
         }
+
         InitializeBotanicalProcessing();
     }
 
@@ -46,12 +47,8 @@ public class MortalPestal : Collector, IInteractableAction
         spawnedIngredient.transform.position = transform.position + offset;
         spawnedIngredient.transform.rotation = transform.rotation;
 
-        Collector spawnedCollector = spawnedIngredient.GetComponent<Collector>();
-
-        for (int i = 0; i < botanicalsAdded.Count; i++)
-        {
-            spawnedCollector.AddBotanical(botanicalsAdded[i]);
-        }
+        //  DataManager.Instance.LastPotentialRecipe = new List<Interactable>();
+        //   DataManager.Instance.UpdatePotentialLastRecipe();
 
         botanicalsAdded = new List<Interactable>();
 

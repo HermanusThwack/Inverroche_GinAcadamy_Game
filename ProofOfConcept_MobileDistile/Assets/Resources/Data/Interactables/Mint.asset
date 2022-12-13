@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70620da4a18cd714a8f2bb324f130970, type: 3}
   m_Name: Mint
   m_EditorClassIdentifier: 
+  componentName: Mint
   stockImage: {fileID: 2800000, guid: 0a13a4dd83bf2f64886d0d783df6c4cf, type: 3}
   interactableDiscription: The term "mint" is an umbrella term for the Mentha plant
     family that includes spearmint, peppermint, orange mint, with over 30 varieties.
+  canBeCollectedBy: 0
   currentNote: 3

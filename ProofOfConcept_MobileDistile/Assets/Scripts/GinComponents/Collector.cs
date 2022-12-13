@@ -9,6 +9,7 @@ public class Collector : MonoBehaviour
     /// The result her could also be used to be sent to the server or where ever for the order probably cash it as a potential ginRecipe untill order request!
     /// </summary>
 
+
     #region SerializedFields
 
     [SerializeField]
@@ -25,36 +26,33 @@ public class Collector : MonoBehaviour
     [SerializeField]
     private float restPeriod = 0.2f, sphereSize = 0.2f;
 
+    [SerializeField, Header("Add ingredients to data manager")]
+    private bool trackData = true;
+
     #endregion
-
-
 
     #region Coroutine 
     private Coroutine checkForInteractableCoroutine;
     #endregion
 
-    private void Start()
+    protected virtual void Start()
     {
         InitialiseInteractableCheck();
+
+        Debug.LogWarning($"{gameObject.name} has started collection Coroutine");
     }
 
     /// <summary>
     /// Adding to the data structure for the order potentially might need to change
     /// </summary>
     /// <param name="interactableAdded"></param>
-    public void AddBotanical(Interactable interactableAdded)
-    {
-        Interactable currentInteractable = interactableAdded;
-        botanicalsAdded.Add(currentInteractable);
-
-    }
-
 
     public void InitialiseInteractableCheck()
     {
         if (checkForInteractableCoroutine != null)
         {
             StopCoroutine(checkForInteractableCoroutine);
+            Debug.LogWarning($"{gameObject.name} has stopped collection Coroutine");
         }
 
         checkForInteractableCoroutine = StartCoroutine(InteractableCheck());
@@ -64,7 +62,7 @@ public class Collector : MonoBehaviour
     /// <summary>
     /// Checks for interactables is n a radius around it and then deactivate them for now.
     /// </summary>
-    /// <returns></returns>
+
     IEnumerator InteractableCheck()
     {
         while (true)
@@ -75,16 +73,30 @@ public class Collector : MonoBehaviour
 
             for (int i = 0; i < col.Length; i++)
             {
+           
+
+
                 if (col[i] != ownCollider)
                 {
 
                     if (col[i].TryGetComponent<Interactable>(out Interactable interactable))
 
-                        if (collectionType == interactable.interactablePanelInfo.canBeCollectedBy) { 
-                        
-                            AddBotanical(interactable);
+                        // Not to collect self and or other similar components.
+                        if (collectionType == interactable.interactableData.canBeCollectedBy)
+                        {
                             interactable.ChangeCurrentState(InteractableState.Idle, false);
                             col[i].gameObject.SetActive(false);
+
+                            // Does not need to add ingredients to data manager.
+                            if (trackData)
+                            {
+                                DataManager.Instance.AddToPotentialRecipe(interactable);
+                            }
+                            else
+                            {
+                                DataManager.Instance.UpdatePotentialLastRecipe();
+                            }
+
                         }
                 }
             }

@@ -4,18 +4,51 @@ using UnityEngine;
 
 public class LookAtHelper : MonoBehaviour
 {
-    // Start is called before the first frame update
+    /// <summary>
+    /// Makes the UI look at the camera according to a "refresh rate" = float.
+    /// 
+    /// When not completly redundent change to speed up refresh rate when interactable is moving! 
+    /// </summary>
 
     [SerializeField]
     private Camera cam;
-    private void Update()
+
+    [SerializeField]
+    private float refreshRate = 5.0f;
+
+    private Coroutine lookAtCameraCorotine;
+
+    private void Awake()
     {
-        LookAtCamera();
+        if (cam == null)
+        {
+            cam = Camera.main;
+        }
     }
 
-    private void LookAtCamera()
+    private void Start()
+    {
+        InitializeLookAtCamera();
+    }
+
+    public void InitializeLookAtCamera()
+    {
+        if (lookAtCameraCorotine != null)
+        {
+            StopCoroutine(lookAtCameraCorotine);
+        }
+        lookAtCameraCorotine = StartCoroutine(LookAtCamera());
+    }
+
+    IEnumerator LookAtCamera()
     {
         //ToDoCheck where the interactable is relative to the screen and move it based on that.
-        transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
+        while (true)
+        {
+            transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
+            yield return new WaitForSeconds(refreshRate);
+        }
+
     }
+
 }

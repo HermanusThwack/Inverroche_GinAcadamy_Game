@@ -35,7 +35,7 @@ public class Interactable : MonoBehaviour
     /// </summary>
 
     [SerializeField]
-    public InteractableInformantion interactablePanelInfo;
+    public InteractableInformantion interactableData;
 
     [SerializeField]
     private bool displayBigPanel = true;
@@ -49,6 +49,8 @@ public class Interactable : MonoBehaviour
     #endregion
     #region Properties
     public InteractableState CurrentState { get => currentState; }
+
+    public IInteractableAction IInteractableAction { get => interactableAction; set => interactableAction = value; }
     public bool IsCollectable { get => IsCollectable; set => isCollectable = value; }
 
     /// <summary>
@@ -57,25 +59,20 @@ public class Interactable : MonoBehaviour
 
     #endregion
 
-
-
-
     private void Awake()
     {
         if (gameObject.TryGetComponent<IInteractableAction>(out IInteractableAction _interactableAction))
         {
             interactableAction = _interactableAction;
-
         }
         else
         {
             Debug.LogError($"Interactable Action Not Found || Please Add a component that is typeof IInteractableAction to {gameObject.name}");
         }
 
-        if (gameObject.TryGetComponent<InteractableMovement>(out InteractableMovement interactable))
+        if (gameObject.TryGetComponent<InteractableMovement>(out InteractableMovement _interactableMovement))
         {
-            interactableMovement = interactable;
-
+            interactableMovement = _interactableMovement;
         }
         else
         {
@@ -125,7 +122,7 @@ public class Interactable : MonoBehaviour
                     InteractController.OnPositionTracking.RemoveListener(interactableMovement.GetTrackedPosition);
                 }
 
-                OnDisplayUIPanel.Invoke(interactablePanelInfo, displayBigPanel);
+                OnDisplayUIPanel.Invoke(interactableData, displayBigPanel);
                 break;
 
             case InteractableState.InteractableSelected:

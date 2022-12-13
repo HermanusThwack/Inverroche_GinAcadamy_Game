@@ -133,8 +133,9 @@ public class UIHandler : MonoBehaviour
     /// </summary>
     /// <param name="_data"></param>
     /// <param name="_displayBigPanel"></param>
-    private void GetPanelInformation(InteractableInformantion _data, bool _displayBigPanel)
+    public void GetPanelInformation(InteractableInformantion _data, bool _displayBigPanel)
     {
+
         Debug.Log(_data.name + _displayBigPanel);
         currentInteractableData = _data;
         displayBigPanel = _displayBigPanel;
@@ -146,15 +147,17 @@ public class UIHandler : MonoBehaviour
     /// </summary>
     public void DisplayPanel()
     {
-        
+
         if (currentInteractableData != null)
         {
-            Debug.Log("Interactable not null "+ currentInteractableData);
+            Debug.Log("Interactable not null " + currentInteractableData);
             if (displayBigPanel)
             {
-                var newImage = Sprite.Create(currentInteractableData.stockImage, new Rect(0, 0, currentInteractableData.stockImage.width, currentInteractableData.stockImage.height), new Vector2(0, 0));
-                bigPanelImage.sprite = newImage;
-
+                if (currentInteractableData.stockImage != null)
+                {
+                    var newImage = Sprite.Create(currentInteractableData.stockImage, new Rect(0, 0, currentInteractableData.stockImage.width, currentInteractableData.stockImage.height), new Vector2(0, 0));
+                    bigPanelImage.sprite = newImage;
+                }
                 bigPanelTextArea.text = currentInteractableData.interactableDiscription;
 
                 infoPanels.CrossFade("DisplayBigPanel", 0f);
@@ -162,8 +165,12 @@ public class UIHandler : MonoBehaviour
             }
             else
             {
-                var newImage = Sprite.Create(currentInteractableData.stockImage, new Rect(0, 0, currentInteractableData.stockImage.width, currentInteractableData.stockImage.height), new Vector2(0, 0));
-                smallPanelImage.sprite = newImage;
+
+                if (currentInteractableData.stockImage != null)
+                {
+                    var newImage = Sprite.Create(currentInteractableData.stockImage, new Rect(0, 0, currentInteractableData.stockImage.width, currentInteractableData.stockImage.height), new Vector2(0, 0));
+                    smallPanelImage.sprite = newImage;
+                }
 
                 smallPanelTextArea.text = currentInteractableData.interactableDiscription;
 
@@ -180,7 +187,7 @@ public class UIHandler : MonoBehaviour
         if (displayBigPanel)
         {
             infoPanels.CrossFade("HideBigPanel", 1f);
-  
+
         }
         else
         {
