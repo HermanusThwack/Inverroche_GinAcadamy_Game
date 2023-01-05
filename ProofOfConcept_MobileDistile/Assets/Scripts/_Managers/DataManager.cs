@@ -59,11 +59,11 @@ public class DataManager : Singleton<DataManager>
     //Could change to return and result
     public void GenerateAcceptedRecipe()
     {
-        Debug.LogWarning("Generating Recipe");
+   
         for (int i = 0; i < lastPotentialRecipe.Count; i++)
         {
             acceptedRecipe.Add(lastPotentialRecipe[i].interactableData.componentName);
-            Debug.LogWarning($"Currentlybeing added to the recipe" + lastPotentialRecipe[i].interactableData.componentName);
+           
         }
     }
 
@@ -76,7 +76,6 @@ public class DataManager : Singleton<DataManager>
         resultString = "Your recipe is: ";
         for (int i = 0; i < acceptedRecipe.Count; i++)
         {
-            Debug.LogWarning(acceptedRecipe[i]);
             resultString += $"\n {acceptedRecipe[i]}";
         }
 

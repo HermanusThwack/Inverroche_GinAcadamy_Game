@@ -1,8 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
+
+/// <summary>
+/// Still inherits from collector and the interface interactable action.
+/// 
+/// This component is responsible for visual displaying the destilling process as well as displaying the result of the distelled product.
+/// 
+/// For now it takes data from the DataManager instance and feed it to the UiHandler to display UI
+/// </summary>
 public class Still : MonoBehaviour, IInteractableAction
 {
     [SerializeField]
@@ -13,12 +20,10 @@ public class Still : MonoBehaviour, IInteractableAction
 
     private Coroutine displayResultCoroutine;
 
-
     public void Interacted()
     {
         InitializeDisplayResult();
     }
-
 
     public void InitializeDisplayResult()
     {
@@ -37,8 +42,9 @@ public class Still : MonoBehaviour, IInteractableAction
 
         resultData.interactableDiscription = recipeData;
 
-
         yield return new WaitForSeconds(3f);
+
+        //Feeding data into the data manager
         uiHandler.GetPanelInformation(resultData, false);
         uiHandler.DisplayPanel();
     }

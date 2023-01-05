@@ -9,7 +9,6 @@ public class Collector : MonoBehaviour
     /// The result her could also be used to be sent to the server or where ever for the order probably cash it as a potential ginRecipe untill order request!
     /// </summary>
 
-
     #region SerializedFields
 
     [SerializeField]
@@ -20,9 +19,8 @@ public class Collector : MonoBehaviour
 
     [SerializeField]
     private CollectableBy collectionType;
-    /// <summary>
-    /// Restperiod is for the coroutine to wait before doing another physics call || Sphere size is the physics overlap cirle.
-    /// </summary>
+    
+    // Restperiod is for the coroutine to wait before doing another physics call || Sphere size is the physics overlap cirle.
     [SerializeField]
     private float restPeriod = 0.2f, sphereSize = 0.2f;
 
@@ -61,6 +59,8 @@ public class Collector : MonoBehaviour
 
     /// <summary>
     /// Checks for interactables is n a radius around it and then deactivate them for now.
+    /// 
+    /// It also updates the potential recipe. And based of the component is collecting base ingredients or not it will rather update the last potential recipe.
     /// </summary>
 
     IEnumerator InteractableCheck()
@@ -70,11 +70,8 @@ public class Collector : MonoBehaviour
             yield return new WaitForSeconds(restPeriod);
             Collider[] col = Physics.OverlapSphere(transform.position, sphereSize);
 
-
             for (int i = 0; i < col.Length; i++)
             {
-           
-
 
                 if (col[i] != ownCollider)
                 {

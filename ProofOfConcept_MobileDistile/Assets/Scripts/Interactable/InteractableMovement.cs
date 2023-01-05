@@ -2,9 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// InteractableMovement handles the movemet for the interactables. It also inherrits from IInteractableAction that allows 
+/// you to change out the UI interaction button where needed. 
+/// 
+/// There are two types of movement currently 
+///     1. Moves between two transforms
+///     2. Moves based an a raycast point + an offset
+/// </summary>
+
 public class InteractableMovement : MonoBehaviour, IInteractableAction
 {
-
+    #region SerializeField
     [SerializeField]
     private bool isDragging = false;
 
@@ -22,16 +31,24 @@ public class InteractableMovement : MonoBehaviour, IInteractableAction
 
     [SerializeField]
     private bool canMove = true;
+    #endregion
+
+    #region Properties
     public Transform StartLocation { get => startTransform; }
     public Transform TargetTransform { get => targetTransform; set => targetTransform = value; }
 
     public bool CanMove { get => canMove; set => canMove = value; }
 
+    #endregion
+
+    #region Private
     private Coroutine grabbedCoroutine;
     private Coroutine lerpInteractableCoroutine;
 
     private RaycastHit hitResult;
     private float speed = 0.5f;
+
+    #endregion
 
     #region MovingFeatures 
 
@@ -43,9 +60,9 @@ public class InteractableMovement : MonoBehaviour, IInteractableAction
     }
 
     /// <summary>
-    ///  
+    ///  Interact is called when to move and object based of witch movement type is selected.
     /// </summary>
-    /// <exception cref="System.NotImplementedException"></exception>
+    
     public void Interacted()
     {
         if (!canMove) return;
@@ -119,7 +136,6 @@ public class InteractableMovement : MonoBehaviour, IInteractableAction
     }
 
     #endregion
-
 
     #region Lerp
     public void InitializeMoveToTarget()

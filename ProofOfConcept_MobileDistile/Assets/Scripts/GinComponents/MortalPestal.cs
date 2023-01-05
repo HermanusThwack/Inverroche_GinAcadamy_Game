@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class MortalPestal : Collector, IInteractableAction
 {
+    /// <summary>
+    /// MortalAndPestal inherits from collector and the interface interactable action.
+    /// 
+    /// This component is basically used for visual porpose since most data haddeling accours in Collector
+    /// </summary>
 
     [SerializeField]
     private Animator animator;
@@ -48,9 +53,9 @@ public class MortalPestal : Collector, IInteractableAction
         spawnedIngredient.transform.rotation = transform.rotation;
 
         //  DataManager.Instance.LastPotentialRecipe = new List<Interactable>();
-        //   DataManager.Instance.UpdatePotentialLastRecipe();
+        //  DataManager.Instance.UpdatePotentialLastRecipe();
 
-        botanicalsAdded = new List<Interactable>();
+        botanicalsAdded = new List<Interactable>(); // This might be redundent
 
     }
 

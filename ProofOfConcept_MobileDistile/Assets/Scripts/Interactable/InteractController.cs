@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -112,8 +110,5 @@ public class InteractController : MonoBehaviour
     /// Clears current interactable
     /// </summary>
     public void ClearInteractable() { currentInteractable = null; }
-
-
-
 
 }
