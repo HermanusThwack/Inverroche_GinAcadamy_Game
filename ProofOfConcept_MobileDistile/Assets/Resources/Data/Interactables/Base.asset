@@ -12,13 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70620da4a18cd714a8f2bb324f130970, type: 3}
   m_Name: Base
   m_EditorClassIdentifier: 
+  stockImage: {fileID: 2800000, guid: a32cdb64f11bf6c4e9b5af70dd8bd3c6, type: 3}
+  contentImage: {fileID: 2800000, guid: 637d60fd70dc0ad4c973f9c828c6438c, type: 3}
   componentName: Base Ingredients
-  stockImage: {fileID: 2800000, guid: 1d89d06026d1e66498eee3e5274e716a, type: 3}
-  interactableDiscription: "The base botanical ingredients to most gins in all gin
-    categories will be very similar if not the same. Incerroche is no exception.
-    The five base botanical ingredients for Inveroche are Juniper berries, Coriander,
-    Angelica root, Citrus peel, Cassia Bark(Cinnamon). \n\nJuniper Berries are present
-    in every gin as a botanical, in fact if it does not have Juniper berries it cannot
-    be called gin."
   canBeCollectedBy: 0
   currentNote: 0

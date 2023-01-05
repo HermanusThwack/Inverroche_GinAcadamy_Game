@@ -73,7 +73,7 @@ public class DataManager : Singleton<DataManager>
 
         if (acceptedRecipe.Count == 0) { GenerateAcceptedRecipe(); }
 
-        resultString = "Your recipe is: ";
+        resultString = "<b> Recipe</b> \n \n Your recipe is: ";
         for (int i = 0; i < acceptedRecipe.Count; i++)
         {
             resultString += $"\n {acceptedRecipe[i]}";

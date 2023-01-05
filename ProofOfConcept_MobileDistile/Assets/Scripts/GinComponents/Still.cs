@@ -38,15 +38,14 @@ public class Still : MonoBehaviour, IInteractableAction
     {
         animator.Play("StartStilling");
         string recipeData = DataManager.Instance.GenerateStringResult();
-        InteractableInformantion resultData = ScriptableObject.CreateInstance<InteractableInformantion>();
+        ResultData resultData = ScriptableObject.CreateInstance<ResultData>();
 
-        resultData.interactableDiscription = recipeData;
+        resultData.ProcessedResult = recipeData;
 
         yield return new WaitForSeconds(3f);
 
         //Feeding data into the data manager
-        uiHandler.GetPanelInformation(resultData, false);
-        uiHandler.DisplayPanel();
+        uiHandler.DisplayRecipeResult(resultData);
     }
 
 }

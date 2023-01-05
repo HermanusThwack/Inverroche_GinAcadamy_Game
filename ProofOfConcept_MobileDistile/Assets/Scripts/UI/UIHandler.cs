@@ -23,13 +23,16 @@ public class UIHandler : MonoBehaviour
     private Animator optionHandles, infoPanels;
 
     [Header("Panel Components"), SerializeField]
-    private Image bigPanelImage;
+    private Image bigStockImage;
 
     [SerializeField]
-    private Image smallPanelImage;
+    private Image smallStockImage;
 
     [SerializeField]
-    private TextMeshProUGUI bigPanelTextArea, smallPanelTextArea;
+    private Image bigContent, smallContent;
+
+    [SerializeField]
+    private TextMeshProUGUI resultText;
     #endregion
 
 
@@ -142,6 +145,13 @@ public class UIHandler : MonoBehaviour
 
     }
 
+    public void DisplayRecipeResult (ResultData resultData)
+    {
+        resultText.text = resultData.ProcessedResult;
+
+        infoPanels.CrossFade("DisplayGinResult", 0f);
+    }
+
     /// <summary>
     /// Display panel gets data from the interactable and based on a bool displays a big or small UI panel.
     /// </summary>
@@ -155,10 +165,13 @@ public class UIHandler : MonoBehaviour
             {
                 if (currentInteractableData.stockImage != null)
                 {
-                    var newImage = Sprite.Create(currentInteractableData.stockImage, new Rect(0, 0, currentInteractableData.stockImage.width, currentInteractableData.stockImage.height), new Vector2(0, 0));
-                    bigPanelImage.sprite = newImage;
+                    bigStockImage.sprite = CreateSpriteFromData(currentInteractableData.stockImage);
                 }
-                bigPanelTextArea.text = currentInteractableData.interactableDiscription;
+
+                if (currentInteractableData.contentImage != null)
+                {
+                    bigContent.sprite = CreateSpriteFromData(currentInteractableData.contentImage);
+                }
 
                 infoPanels.CrossFade("DisplayBigPanel", 0f);
 
@@ -168,11 +181,13 @@ public class UIHandler : MonoBehaviour
 
                 if (currentInteractableData.stockImage != null)
                 {
-                    var newImage = Sprite.Create(currentInteractableData.stockImage, new Rect(0, 0, currentInteractableData.stockImage.width, currentInteractableData.stockImage.height), new Vector2(0, 0));
-                    smallPanelImage.sprite = newImage;
+                    smallStockImage.sprite = CreateSpriteFromData(currentInteractableData.stockImage);
                 }
 
-                smallPanelTextArea.text = currentInteractableData.interactableDiscription;
+                if (currentInteractableData.contentImage != null)
+                {
+                    smallContent.sprite = CreateSpriteFromData(currentInteractableData.contentImage);
+                }
 
                 infoPanels.CrossFade("DisplaySmallPanel", 0f);
             }
@@ -201,4 +216,27 @@ public class UIHandler : MonoBehaviour
 
     #endregion
 
+    /// <summary>
+    /// Convert Image to sprite to display data
+    /// </summary>
+    /// <param name="currentImage"></param>
+    /// <returns></returns>
+    private Sprite CreateSpriteFromData(Texture2D currentImage)
+    {
+        try
+        {
+            Sprite result = null;
+
+            result = Sprite.Create(currentImage, new Rect(0, 0, currentImage.width, currentImage.height), new Vector2(0.5f, 0.5f));
+
+            return result;
+        }
+        catch (System.Exception e)
+        {
+
+            Debug.LogError(e);
+            throw;
+        }
+
+    }
 }

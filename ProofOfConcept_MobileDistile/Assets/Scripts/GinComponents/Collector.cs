@@ -11,8 +11,8 @@ public class Collector : MonoBehaviour
 
     #region SerializedFields
 
-    [SerializeField]
-    public List<Interactable> botanicalsAdded = new List<Interactable>();
+/*    [SerializeField]
+    public List<Interactable> botanicalsAdded = new List<Interactable>();*/
 
     [SerializeField]
     private Collider ownCollider;

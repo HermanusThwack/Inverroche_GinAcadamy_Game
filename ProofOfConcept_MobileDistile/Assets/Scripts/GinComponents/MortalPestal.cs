@@ -22,7 +22,7 @@ public class MortalPestal : Collector, IInteractableAction
     private Coroutine processBotanicalsCoroutine;
     public void Interacted()
     {
-        if (DataManager.Instance.PotentialRecipe.Count == 0)
+        if (DataManager.Instance.PotentialRecipe.Count == 0 )
         {
             animator.Play("Reset");
             return;
@@ -55,7 +55,7 @@ public class MortalPestal : Collector, IInteractableAction
         //  DataManager.Instance.LastPotentialRecipe = new List<Interactable>();
         //  DataManager.Instance.UpdatePotentialLastRecipe();
 
-        botanicalsAdded = new List<Interactable>(); // This might be redundent
+       
 
     }
 
