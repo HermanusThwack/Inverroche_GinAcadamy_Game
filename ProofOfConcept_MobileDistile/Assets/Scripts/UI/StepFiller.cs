@@ -10,24 +10,18 @@ using UnityEngine.UI;
 public class StepFiller : MonoBehaviour
 {
     [SerializeField]
-    private Image fillImage;
+    Animator animator;
 
     [SerializeField]
-    private float stepValue = 0.13f;
+    private int currentIndex = 0;
+    
+    
+    private int animationIndex = 0;
+    private int lastEnteredIndex = 0;
 
-    [SerializeField]
-    private float currentIncrementValue = 0f;
+    private Coroutine StepCo;
+    private bool playReverse = false;
 
-    [SerializeField]
-    private float incrementSpeed = 0.4f;
-    private float incrementCap;
-
-    private Coroutine StepFillerCouroutine;
-
-    private void Awake()
-    {
-        incrementCap = 0;
-    }
     private void Start()
     {
         StartFillCoroutine();
@@ -35,40 +29,40 @@ public class StepFiller : MonoBehaviour
 
     public void StartFillCoroutine()
     {
-        if(StepFillerCouroutine != null)
+        if (StepCo != null)
         {
-            StopCoroutine(StepFillerCouroutine);
+            StopCoroutine(StepCo);
         }
 
-        StepFillerCouroutine = StartCoroutine(IncreaseFill());
+        StepCo = StartCoroutine(ChangeCurrentStep());
     }
-    public void Increament()
+    public void Increament(int indexValue)
     {
-        if(incrementCap >= 1f)
+        if (currentIndex == indexValue) return;
+        currentIndex = indexValue;
+
+        if (indexValue > lastEnteredIndex && indexValue != lastEnteredIndex)
         {
-            incrementCap = 0f;
-            currentIncrementValue = 0;
-            fillImage.fillAmount = currentIncrementValue;
-            StartFillCoroutine();
+            animationIndex = indexValue;
         }
-        else if (incrementCap < 1f)
+        else
         {
-            incrementCap += stepValue;
+            animationIndex = -(indexValue + 1);
         }
 
+        lastEnteredIndex = currentIndex;
+  
     }
 
-    IEnumerator IncreaseFill()
+    IEnumerator ChangeCurrentStep()
     {
-        while (currentIncrementValue <= 1f)
-        {
-            if (currentIncrementValue < incrementCap)
-            {
-                currentIncrementValue += Time.fixedDeltaTime * incrementSpeed;
 
-                fillImage.fillAmount = currentIncrementValue;
-            }
-            yield return null;
+        while (true)
+        {
+            animator.CrossFade(animationIndex.ToString(), 0f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
+
+
 }
