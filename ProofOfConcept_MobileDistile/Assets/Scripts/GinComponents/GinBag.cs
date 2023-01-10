@@ -23,6 +23,9 @@ public class GinBag : Collector, IInteractableAction
     [SerializeField]
     private Interactable thisInteractable;
 
+    [SerializeField]
+    private TaskCompleted taskCompleted;
+
     private Coroutine closeBagCoroutine;
     public void Interacted()
     {
@@ -30,6 +33,8 @@ public class GinBag : Collector, IInteractableAction
 
         if (thisInteractableMovement.enabled) { return; }
         InitializeClosingBag();
+
+        taskCompleted.CompleteTask();
     }
 
     protected override void Start()

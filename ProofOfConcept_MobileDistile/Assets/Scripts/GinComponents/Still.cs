@@ -26,21 +26,32 @@ public class Still : MonoBehaviour, IInteractableAction
     [SerializeField]
     private float smoothTime = 0.2f;
 
-    private Vector3 velocity =  Vector3.zero;
+    private Vector3 velocity = Vector3.zero;
 
     private Coroutine displayResultCoroutine;
 
     private bool stillClosed = false;
 
+    [SerializeField]
+    private TaskCompleted firstTask, secondTask;
+
+    [SerializeField]
+    InteractController interactController;
+
     public void Interacted()
     {
+
         if (!stillClosed)
         {
             CloseStill();
+            firstTask.CompleteTask();
+        interactController.ClearInteractable();
+
         }
-        else if(DataManager.Instance.LastPotentialRecipe != null)
+        else if (DataManager.Instance.LastPotentialRecipe != null)
         {
             InitializeDisplayResult();
+            secondTask.CompleteTask();
         }
     }
 
@@ -56,9 +67,15 @@ public class Still : MonoBehaviour, IInteractableAction
 
     public void CloseStill()
     {
+        if (interactController == null)
+        {
+            interactController = FindObjectOfType<InteractController>();
+        }
+
+        interactController.ClearInteractable();
         Debug.Log("Shit is happening !");
-        stillTop.position = Vector3.MoveTowards(stillTop.position, stillClosedPosition.position,  smoothTime);
-        stillClosed= true;
+        stillTop.position = Vector3.MoveTowards(stillTop.position, stillClosedPosition.position, smoothTime);
+        stillClosed = true;
 
     }
 

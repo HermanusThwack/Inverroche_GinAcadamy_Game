@@ -22,23 +22,9 @@ public class StepFiller : MonoBehaviour
     private int animationIndex = 0;
     private int lastEnteredIndex = 0;
 
-    private Coroutine StepCo;
-    private bool playReverse = false;
     #endregion
-    private void Start()
-    {
-        StartFillCoroutine();
-    }
 
-    public void StartFillCoroutine()
-    {
-        if (StepCo != null)
-        {
-            StopCoroutine(StepCo);
-        }
 
-        StepCo = StartCoroutine(ChangeCurrentStep());
-    }
     public void Increament(int indexValue)
     {
         if (currentIndex == indexValue) return;
@@ -54,18 +40,11 @@ public class StepFiller : MonoBehaviour
         }
 
         lastEnteredIndex = currentIndex;
-  
+        animator.CrossFade(animationIndex.ToString(), 0.3f);
     }
-
-    IEnumerator ChangeCurrentStep()
-    {
-
-        while (true)
-        {
-            animator.CrossFade(animationIndex.ToString(), 0.3f);
-            yield return new WaitForSeconds(0.2f);
-        }
-    }
-
 
 }
+    
+
+
+

@@ -20,6 +20,9 @@ public class MortalPestal : Collector, IInteractableAction
     private Vector3 offset = new Vector3(0f, 0f, 0f);
 
     private Coroutine processBotanicalsCoroutine;
+
+    [SerializeField]
+    TaskCompleted taskCompleted;
     public void Interacted()
     {
         if (DataManager.Instance.PotentialRecipe.Count == 0 )
@@ -29,6 +32,7 @@ public class MortalPestal : Collector, IInteractableAction
         }
 
         InitializeBotanicalProcessing();
+        taskCompleted.CompleteTask();
     }
 
     public void InitializeBotanicalProcessing()

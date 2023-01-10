@@ -11,21 +11,24 @@ public class Collector : MonoBehaviour
 
     #region SerializedFields
 
-/*    [SerializeField]
-    public List<Interactable> botanicalsAdded = new List<Interactable>();*/
+    /*    [SerializeField]
+        public List<Interactable> botanicalsAdded = new List<Interactable>();*/
 
     [SerializeField]
     private Collider ownCollider;
 
     [SerializeField]
     private CollectableBy collectionType;
-    
+
     // Restperiod is for the coroutine to wait before doing another physics call || Sphere size is the physics overlap cirle.
     [SerializeField]
     private float restPeriod = 0.2f, sphereSize = 0.2f;
 
     [SerializeField, Header("Add ingredients to data manager")]
     private bool trackData = true;
+
+    [Space(2), SerializeField, Header("StepChecker")]
+    private bool stepChecker = true;
 
     #endregion
 
@@ -92,6 +95,15 @@ public class Collector : MonoBehaviour
                             else
                             {
                                 DataManager.Instance.UpdatePotentialLastRecipe();
+                            }
+
+                            if (stepChecker)
+                            {
+                                if (col[i].TryGetComponent<TaskCompleted>(out TaskCompleted taskCompleted))
+                                {
+                                    taskCompleted.CompleteTask();
+                                    interactable.ChangeCurrentState(InteractableState.Idle, false);
+                                }
                             }
 
                         }

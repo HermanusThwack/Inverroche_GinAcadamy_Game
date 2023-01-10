@@ -8,9 +8,13 @@ public class BunsenBurner : MonoBehaviour, IInteractableAction
     [SerializeField]
     private Animator animator;
 
+    [SerializeField]
+    private TaskCompleted taskCompleted;
+
     public void Interacted()
     {
         animator.CrossFade("TurnOn", 0f);
+        taskCompleted.CompleteTask();
     }
 
 
@@ -18,5 +22,6 @@ public class BunsenBurner : MonoBehaviour, IInteractableAction
     public void ResetActions()
     {
         animator.CrossFade("Empty", 0f);
+        taskCompleted.TaskReverted();   
     }
 }

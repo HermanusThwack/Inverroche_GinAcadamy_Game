@@ -37,6 +37,7 @@ public class InteractController : MonoBehaviour
     #endregion
     #region private
     // potential intercactable is when you click on the interactable but does select a option, where as current interactable you have selected an option.
+    [SerializeField]
     private Interactable potentialInteractable, currentInteractable;
 
 
@@ -109,6 +110,6 @@ public class InteractController : MonoBehaviour
     /// <summary>
     /// Clears current interactable
     /// </summary>
-    public void ClearInteractable() { currentInteractable = null; }
+    public void ClearInteractable() { Debug.LogError($"Cleared || Current Interactable {currentInteractable.name}"); currentInteractable = null; }
 
 }
