@@ -5,23 +5,26 @@ using UnityEngine.UI;
 
 
 /// <summary>
-/// Something of a visual aid
+/// This script is responsible for the visual side as well as the logic for the deciding what step your on
+/// The step manager then reverts all steps neccesarry.
 /// </summary>
 public class StepFiller : MonoBehaviour
 {
+    #region SerializedFields
     [SerializeField]
     Animator animator;
 
     [SerializeField]
     private int currentIndex = 0;
-    
-    
+    #endregion
+
+    #region Private
     private int animationIndex = 0;
     private int lastEnteredIndex = 0;
 
     private Coroutine StepCo;
     private bool playReverse = false;
-
+    #endregion
     private void Start()
     {
         StartFillCoroutine();
@@ -59,7 +62,7 @@ public class StepFiller : MonoBehaviour
 
         while (true)
         {
-            animator.CrossFade(animationIndex.ToString(), 0f);
+            animator.CrossFade(animationIndex.ToString(), 0.3f);
             yield return new WaitForSeconds(0.2f);
         }
     }

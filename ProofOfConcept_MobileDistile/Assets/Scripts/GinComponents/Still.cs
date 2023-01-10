@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 
@@ -18,11 +19,29 @@ public class Still : MonoBehaviour, IInteractableAction
     [SerializeField]
     private UIHandler uiHandler;
 
+    [SerializeField]
+    private Transform stillTop;
+    [SerializeField]
+    private Transform stillOpenPosition, stillClosedPosition;
+    [SerializeField]
+    private float smoothTime = 0.2f;
+
+    private Vector3 velocity =  Vector3.zero;
+
     private Coroutine displayResultCoroutine;
+
+    private bool stillClosed = false;
 
     public void Interacted()
     {
-        InitializeDisplayResult();
+        if (!stillClosed)
+        {
+            CloseStill();
+        }
+        else if(DataManager.Instance.LastPotentialRecipe != null)
+        {
+            InitializeDisplayResult();
+        }
     }
 
     public void InitializeDisplayResult()
@@ -33,6 +52,16 @@ public class Still : MonoBehaviour, IInteractableAction
         }
         displayResultCoroutine = StartCoroutine(DisplayResult());
     }
+
+
+    public void CloseStill()
+    {
+        Debug.Log("Shit is happening !");
+        stillTop.position = Vector3.MoveTowards(stillTop.position, stillClosedPosition.position,  smoothTime);
+        stillClosed= true;
+
+    }
+
 
     IEnumerator DisplayResult()
     {
@@ -47,5 +76,8 @@ public class Still : MonoBehaviour, IInteractableAction
         //Feeding data into the data manager
         uiHandler.DisplayRecipeResult(resultData);
     }
+
+
+
 
 }
