@@ -19,39 +19,28 @@ public class Still : MonoBehaviour, IInteractableAction
     [SerializeField]
     private UIHandler uiHandler;
 
-    [SerializeField]
-    private Transform stillTop;
-    [SerializeField]
-    private Transform stillOpenPosition, stillClosedPosition;
-    [SerializeField]
-    private float smoothTime = 0.2f;
-
-    private Vector3 velocity = Vector3.zero;
 
     private Coroutine displayResultCoroutine;
 
-    private bool stillClosed = false;
-
     [SerializeField]
-    private TaskCompleted firstTask, secondTask;
+    private TaskCompleted task;
 
     [SerializeField]
     InteractController interactController;
 
+    private void Start()
+    {
+        
+    }
     public void Interacted()
     {
 
-        if (!stillClosed)
-        {
-            CloseStill();
-            firstTask.CompleteTask();
         interactController.ClearInteractable();
 
-        }
-        else if (DataManager.Instance.LastPotentialRecipe != null)
+        if (DataManager.Instance.LastPotentialRecipe != null)
         {
             InitializeDisplayResult();
-            secondTask.CompleteTask();
+            task.CompleteTask();
         }
     }
 
@@ -65,19 +54,6 @@ public class Still : MonoBehaviour, IInteractableAction
     }
 
 
-    public void CloseStill()
-    {
-        if (interactController == null)
-        {
-            interactController = FindObjectOfType<InteractController>();
-        }
-
-        interactController.ClearInteractable();
-        Debug.Log("Shit is happening !");
-        stillTop.position = Vector3.MoveTowards(stillTop.position, stillClosedPosition.position, smoothTime);
-        stillClosed = true;
-
-    }
 
 
     IEnumerator DisplayResult()

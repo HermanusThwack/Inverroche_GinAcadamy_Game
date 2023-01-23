@@ -12,10 +12,10 @@ using UnityEngine.Events;
 /// and potential interactable becomes null.
 /// </summary>
 
-public class InteractController : MonoBehaviour 
+public class InteractController : MonoBehaviour
 {
 
-    
+
     #region UnityEvents
     public static UnityEvent<Interactable> OnInteractableFound = new UnityEvent<Interactable>();
 
@@ -73,9 +73,9 @@ public class InteractController : MonoBehaviour
                 Debug.DrawLine(ray.origin, hit.point, Color.blue);
                 if (Input.GetMouseButtonDown(0))
                 {
-           
 
-                    if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable foundedInteractable))
+
+                    if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable foundedInteractable) && foundedInteractable.isActiveAndEnabled)
                     {
                         potentialInteractable = foundedInteractable;
                         OnInteractableFound.Invoke(potentialInteractable); // ----> Interactable State handler 
@@ -87,7 +87,7 @@ public class InteractController : MonoBehaviour
 
                     }
                 }
-              
+
             }
         }
         //After interactable is found send the position data to that interactable
@@ -110,6 +110,10 @@ public class InteractController : MonoBehaviour
     /// <summary>
     /// Clears current interactable
     /// </summary>
-    public void ClearInteractable() { Debug.LogError($"Cleared || Current Interactable {currentInteractable.name}"); currentInteractable = null; }
+    public void ClearInteractable()
+    {
+        if (currentInteractable == null) return;
+        Debug.LogError($"Cleared || Current Interactable {currentInteractable.name}"); currentInteractable = null;
+    }
 
 }

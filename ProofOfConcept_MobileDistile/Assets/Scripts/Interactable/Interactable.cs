@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-
+using System.Collections.Generic;
+using System.Linq;
 
 public enum InteractableState
 {
@@ -24,9 +25,6 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private InteractableState currentState = InteractableState.Idle;
 
-    [SerializeField]
-    private IInteractableAction interactableAction;
-
     private InteractableMovement interactableMovement;
 
     /// <summary>
@@ -44,7 +42,7 @@ public class Interactable : MonoBehaviour
     #region private
     private Coroutine grabbedCoroutine;
     private bool isCollectable = false;
-
+    private IInteractableAction interactableAction; 
     #endregion
     #region Properties
     public InteractableState CurrentState { get => currentState; }
@@ -59,14 +57,13 @@ public class Interactable : MonoBehaviour
     #endregion
 
     private void Awake()
+
     {
-        if (gameObject.TryGetComponent<IInteractableAction>(out IInteractableAction _interactableAction))
+        interactableAction = GetComponents<IInteractableAction>().First(c => ((MonoBehaviour)c).enabled);
+        
+        if(interactableAction == null)
         {
-            interactableAction = _interactableAction;
-        }
-        else
-        {
-            Debug.LogError($"Interactable Action Not Found || Please Add a component that is typeof IInteractableAction to {gameObject.name}");
+            Debug.LogError("Interactable action was found on this component. Please and one inheriting from IInteractableAction.");
         }
 
         if (gameObject.TryGetComponent<InteractableMovement>(out InteractableMovement _interactableMovement))
@@ -139,7 +136,5 @@ public class Interactable : MonoBehaviour
     }
 
 }
-
-
 
 
