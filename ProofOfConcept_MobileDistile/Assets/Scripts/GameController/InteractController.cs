@@ -88,7 +88,18 @@ public class InteractController : MonoBehaviour
                     }
                 }
 
+
             }
+            else if (Physics.Raycast(ray, out hit, Mathf.Infinity, tableLayer))
+            {
+                Debug.DrawLine(ray.origin, hit.point, Color.red);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Debug.LogError(hit.point);
+                    transform.position = new Vector3(hit.point.x,transform.position.y, transform.position.z);    
+                }
+            }
+
         }
         //After interactable is found send the position data to that interactable
         else
