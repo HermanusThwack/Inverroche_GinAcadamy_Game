@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// POTENTIAL MOBILE INPUT FOR WEBGL IS TOUCHES[] AND ACCELERATION
@@ -34,6 +35,13 @@ public class InteractController : MonoBehaviour
     [SerializeField]
     private LayerMask interactableLayer, tableLayer;
 
+    [SerializeField]
+    private float dragSpeed = 2f;
+
+    [SerializeField]
+    private float smoothTime = 0.1f;
+
+
     #endregion
     #region private
     // potential intercactable is when you click on the interactable but does select a option, where as current interactable you have selected an option.
@@ -43,6 +51,10 @@ public class InteractController : MonoBehaviour
 
     private Ray ray;
     private RaycastHit hit;
+
+    private Vector3 dragOrigin;
+    private Vector3 velocity;
+
     #endregion
 
     private void Start()
@@ -62,6 +74,7 @@ public class InteractController : MonoBehaviour
     // Might remove this and put into coroutine depinding on performance.
     private void Update()
     {
+
 
         ray = mainCam.ScreenPointToRay(Input.mousePosition);
 
@@ -92,12 +105,19 @@ public class InteractController : MonoBehaviour
             }
             else if (Physics.Raycast(ray, out hit, Mathf.Infinity, tableLayer))
             {
-                Debug.DrawLine(ray.origin, hit.point, Color.red);
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Debug.LogError(hit.point);
-                    transform.position = new Vector3(hit.point.x,transform.position.y, transform.position.z);    
-                }
+                //Debug.DrawLine(ray.origin, hit.point, Color.red);
+                //if (Input.GetMouseButtonDown(0))
+                //{
+                //    dragOrigin = Input.mousePosition;
+                //    return;
+                //}
+
+                //if (!Input.GetMouseButton(0)) return;
+
+                //Vector3 pos = mainCam.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+                //Vector3 move = new Vector3(pos.x * dragSpeed, 0, 0);
+
+                //transform.position = Vector3.SmoothDamp(transform.position, transform.position + move, ref velocity, smoothTime);
             }
 
         }
